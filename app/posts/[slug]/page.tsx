@@ -18,9 +18,7 @@ export default async function ArticlePage(props: ArticlePageProps) {
   );
   return (
     <div>
-      <Markdown remarkPlugins={[remarkGfm]}>
-        {content}
-      </Markdown>
+      <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
     </div>
   );
 }

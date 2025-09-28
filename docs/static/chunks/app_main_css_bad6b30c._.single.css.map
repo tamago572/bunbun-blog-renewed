@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/app/main.css"],"sourcesContent":["body {\n    background-color: #ededed;\n    width: 100%;\n}\n\nmain {\n    background-color: #ffffff;\n    margin: 0px 10%;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);\n}\n\nmain div {\n    padding: 5px 12px;\n}\n"],"names":[],"mappings":"AAAA;;;;;AAKA;;;;;;AAMA"}}]
-}

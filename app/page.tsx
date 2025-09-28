@@ -4,20 +4,24 @@ import "./top.css";
 const POST_PATH = "posts/";
 
 export default async function Home() {
-    // mdファイルが格納されているディレクトリを取得し、slugのみ返す
-    const postfiles = await fs.promises.readdir(POST_PATH);
-    const posts = postfiles.map((filename) => filename.replace(/\.md$/, ""));
-    const titles = posts.map((post) => {
-      return fs.promises.readFile(`${POST_PATH}/${post}.md`, "utf-8").then((content) => {
+  // mdファイルが格納されているディレクトリを取得し、slugのみ返す
+  const postfiles = await fs.promises.readdir(POST_PATH);
+  const posts = postfiles.map((filename) => filename.replace(/\.md$/, ""));
+  const titles = posts.map((post) => {
+    return fs.promises
+      .readFile(`${POST_PATH}/${post}.md`, "utf-8")
+      .then((content) => {
         return content.slice(2, content.indexOf("\n"));
       });
-    })
+  });
 
-    return (
+  return (
     <div>
       <h1>*＊*＊Welcome to Bunbun's Homepage!*＊*＊</h1>
       <hr />
-      <div className="marquee">*＊*＊*＊*＊*＊*＊ぶんぶんのホームページへようこそ！*＊*＊*＊*＊*＊</div>
+      <div className="marquee">
+        *＊*＊*＊*＊*＊*＊ぶんぶんのホームページへようこそ！*＊*＊*＊*＊*＊
+      </div>
       <hr />
       <p>昔のホームページかと思うかもしれませんが、</p>
       <p>HTML5, Next.js, React, Firebaseで作られています。</p>
@@ -47,7 +51,10 @@ export default async function Home() {
         </li>
       </ul>
       <hr />
-      <p>ソースコード: <a href="https://github.com/tamago572/bunbun-blog-renewed">GitHub</a></p>
+      <p>
+        ソースコード:{" "}
+        <a href="https://github.com/tamago572/bunbun-blog-renewed">GitHub</a>
+      </p>
       <p>Built date: {new Date().toLocaleString()}</p>
       <p>© 2025 Bunbun</p>
     </div>

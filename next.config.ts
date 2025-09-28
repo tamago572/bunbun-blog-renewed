@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   },
   // posts/[slug].htmlではなくposts/[slug]/index.htmlで出力する SEO的に有利(多分)
   trailingSlash: true,
-  distDir: "docs"
+  distDir: "docs",
 };
 
 export default nextConfig;
