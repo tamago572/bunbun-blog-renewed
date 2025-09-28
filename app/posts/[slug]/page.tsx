@@ -1,29 +1,44 @@
+import fs from "node:fs";
+
+const POST_PATH = "posts/";
+
 interface ArticlePageProps {
   params: {
     slug: string;
-    content?: string;
   };
 }
 
-export default function ArticlePage({ params }: ArticlePageProps) {
+export default async function ArticlePage(props: ArticlePageProps) {
+  const { slug } = await props.params;
+  const content = await fs.promises.readFile(
+    `${POST_PATH}/${slug}.md`,
+    "utf-8",
+  );
   return (
     <>
-      <h1>記事ページ: {params.slug}</h1>
+      <h1>記事ページ: {slug}</h1>
       {/* 記事の内容をここに表示 */}
+      <div>{content}</div>
     </>
   );
 }
 
 export async function generateStaticParams() {
-  const postfiles: string[] = [
-    "example-article",
-    "test-article",
-    "sample-article",
-  ];
-  // TODO: mdファイルが格納されているディレクトリを、lsコマンド的処理で取得、一つづつreadFileSyncで読み込み、slugとcontentを返す
+  // mdファイルが格納されているディレクトリを取得し、slugのみ返す
+  const postfiles = await fs.promises.readdir(POST_PATH);
 
-  return postfiles.map((slug) => ({
-    slug: slug,
-    content: "<記事の内容>",
+  return postfiles.map((filename) => ({
+    slug: filename.replace(/\.md$/, ""),
   }));
+}
+
+export async function generateMetadata(props: ArticlePageProps) {
+  const { slug } = await props.params;
+  const content = await fs.promises.readFile(
+    `${POST_PATH}/${slug}.md`,
+    "utf-8",
+  );
+  const title = content.slice(0, content.indexOf("\n"));
+
+  return { title: title };
 }
