@@ -1,0 +1,21 @@
+/* [project]/app/top.css [app-client] (css) */
+body {
+  text-align: center;
+  font-family: MS Gothic, sans-serif;
+}
+
+.marquee {
+  animation: 20s linear infinite marqueeAnim;
+}
+
+@keyframes marqueeAnim {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/*# sourceMappingURL=app_top_d98e8d48.css.map*/

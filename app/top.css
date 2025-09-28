@@ -1,0 +1,17 @@
+body {
+    text-align: center;
+    font-family: "MS Gothic", sans-serif;
+}
+
+.marquee {
+    animation: marqueeAnim infinite 20s linear;
+}
+
+@keyframes marqueeAnim {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

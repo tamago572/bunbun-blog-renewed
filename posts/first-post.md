@@ -1,7 +1,15 @@
-# first post!
+# WordPressから移転しました
 
-texttexttexttexttexttexttexttexttexttexttexttexttexttext
+こんにちは。ぶんぶんです。
 
-## h2!!
+もとはpote-sala.comでWordPressにて運用していたのですが、ブログを自作してみようということで移転しました。
 
-text*el*texttexttext
+Next.js、Reactを駆使して作成しました。まだまだ初期段階ですのでこれから機能を実装していきます。
+
+デザインが適当なのはのちのち修正しようと思います。
+
+記事の移転は後々行います。
+
+今後ともよろしくお願いします。
+
+ぶんぶん

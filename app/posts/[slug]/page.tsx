@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const POST_PATH = "posts/";
 
@@ -15,11 +17,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
     "utf-8",
   );
   return (
-    <>
-      <h1>記事ページ: {slug}</h1>
-      {/* 記事の内容をここに表示 */}
-      <div>{content}</div>
-    </>
+    <div>
+      <Markdown remarkPlugins={[remarkGfm]}>
+        {content}
+      </Markdown>
+    </div>
   );
 }
 
@@ -38,7 +40,7 @@ export async function generateMetadata(props: ArticlePageProps) {
     `${POST_PATH}/${slug}.md`,
     "utf-8",
   );
-  const title = content.slice(0, content.indexOf("\n"));
+  const title = content.slice(2, content.indexOf("\n"));
 
   return { title: title };
 }
