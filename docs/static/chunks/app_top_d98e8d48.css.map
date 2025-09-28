@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/bunbun/Documents/bunbun-blog-renewed/app/top.css"],"sourcesContent":["body {\r\n  text-align: center;\r\n  font-family: \"MS Gothic\", sans-serif;\r\n}\r\n\r\n.marquee {\r\n  animation: marqueeAnim infinite 20s linear;\r\n}\r\n\r\n@keyframes marqueeAnim {\r\n  0% {\r\n    transform: translateX(100%);\r\n  }\r\n  100% {\r\n    transform: translateX(-100%);\r\n  }\r\n}\r\n"],"names":[],"mappings":"AAAA;;;;;AAKA;;;;AAIA","debugId":null}}]
-}

@@ -1,1 +1,0 @@
-body{text-align:center;font-family:MS Gothic,sans-serif}.marquee{animation:20s linear infinite marqueeAnim}@keyframes marqueeAnim{0%{transform:translate(100%)}to{transform:translate(-100%)}}
