@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type React from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -72,6 +73,15 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
       return <HeadingList markdown={content} />;
     },
+    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+        <Image
+            src={props.src || "/demo.webp"}
+            alt={props.alt || ""}
+            className="my-4 max-w-full h-auto"
+            width={720}
+            height={480}
+        />
+    ),
   };
   return (
     <Markdown
