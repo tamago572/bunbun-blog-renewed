@@ -1,5 +1,7 @@
 # M1/M2 Macでブルアカを動かす方法（PlayCover）と注意点とは
 
+![thumbnail](/blue-archive-mac/playcover_blac.webp)
+
 Macの綺麗な画面でブルアカをプレイしたい！メモロビを大画面で見たい！ストーリー見たい！って思った先生、いるのではないでしょうか？
 
 そんな先生方のためにいいアプリがあります。PlayCoverというアプリです。超簡単にMacでブルアカをプレイできます。
@@ -27,7 +29,7 @@ https://github.com/PlayCover/PlayCover/releases/tag/2.0.5
 
 このリンクからダウンロードします。スクロールして、.dmgファイルをダウンロードしましょう。
 
-{-image-}
+![github](/blue-archive-mac/github_plcv.webp)
 
 注意点として、必ずバージョン2.0.5をダウンロードするようにしてください。
 3.0.0 betaもありますが、「Use of unauthorized apps.」と出て起動しないので注意しましょう。
@@ -45,7 +47,7 @@ https://decrypt.day/app/id1515877221
 
 リンクを開いたら、青色のFree Downloadというボタンでダウンロードできます。
 
-{image}
+![download ipa](/blue-archive-mac/blac_dlnow-1024x665.webp)
 
 アプリのアップデート時は適宜このサイトからダウンロードしてください。
 ただし、App Storeのアプリをコピーしているわけなので、リリースから少々タイムラグがあることに注意してください。
@@ -56,15 +58,15 @@ PlayCoverを開きましょう。
 
 プラスボタンをクリックし、さっきダウンロードしたIPAファイルを選択します。
 
-{image}
+![add ipa](/blue-archive-mac/add_ipa-1024x632.webp)
 
 ブルアカが追加されたら、右上の設定アイコンをクリックします。
 
-{image}
+![click settings icon](/blue-archive-mac/settings_icon-1024x569.webp)
 
 脱獄検知回避タブから「ジェイルブレイクバイパスを有効にする（アルファ）」のチェックボックスを有効にします。
 
-{image}
+![click a checkbox](/blue-archive-mac/jail_break-1024x569.webp)
 
 OKで保存します。
 
@@ -79,13 +81,13 @@ PlayCover v2.0.5では動作させるためにはSIPの無効化が必要です�
 
 起動ディスクの選択画面が出るので、「オプション」を選択します。
 
-{image}
+![select option](/blue-archive-mac/IMG_3562-1024x768.webp)
 
 ユーザーを選択し、パスワードを入力します。
 
 メニューバーから、ユーティリティ→ターミナルを選択します。
 
-{image}
+![terminal](/blue-archive-mac/IMG_3564-1024x768.webp)
 
 ```bash
 csrutil disable
@@ -93,14 +95,14 @@ csrutil disable
 
 と入力してEnter。
 
-{image}
+![terminal](/blue-archive-mac/IMG_3566-1024x768.webp)
 
 なんか聞かれるので、yと入力してEnter。
 
 ログインパスワードを聞かれるので入力してEnter。
 入力中、文字が見えませんが、入力されているので、そのままEnterで大丈夫です。
 
-{image}
+![enter pw](/blue-archive-mac/IMG_3568-1-1024x768.webp)
 
 少し処理に時間がかかります。
 Restart the machine…と出たら、リンゴアイコンからMacを再起動します。
@@ -109,18 +111,18 @@ Restart the machine…と出たら、リンゴアイコンからMacを再起動�
 
 メニューバーから、PlayCover→コード署名設定を選択します。
 
-{image}
+![menubar](/blue-archive-mac/playcovermenubar.webp)
 
 コマンドをコピーをクリックします。
 
-{image}
+![copy commands](/blue-archive-mac/playcovercode.webp)
 
 そしたらターミナルを開きます。
 
 さきほどコピーした文字列をペーストして、Enter。
 Macが再起動されます。
 
-{image}
+![terminal](/blue-archive-mac/playcoverterminal.webp)
 
 するとPlayCoverからブルアカをダブルクリックで起動で遊ぶことができます。
 
