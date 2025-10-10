@@ -1,6 +1,8 @@
 body {
   text-align: center;
-  font-family: "MS Gothic", sans-serif;
+  font-family: "MS PGothic", sans-serif;
+  background-color: #e4e4e4;
+  color: #000;
 }
 
 .marquee {
@@ -14,4 +16,8 @@ body {
   100% {
     transform: translateX(-100%);
   }
+}
+
+.accessCounter {
+  color: green;
 }
