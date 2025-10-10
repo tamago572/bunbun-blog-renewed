@@ -1,0 +1,34 @@
+.heading_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin: 0.5rem 0;
+  }
+}
+
+.list_item_h2 {
+  padding-left: 1rem;
+}
+.list_item_h3 {
+  padding-left: 2rem;
+}
+.list_item_h4 {
+  padding-left: 3rem;
+}
+.list_item_h5 {
+  padding-left: 4rem;
+}
+.list_item:hover {
+  text-decoration: underline;
+}
+.container {
+  background-color: #f1f1f1;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

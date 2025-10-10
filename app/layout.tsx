@@ -1,17 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import "./main.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "@/app/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +13,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="">
         <main>{children}</main>
+
+        <footer>
+          <p>
+            ソースコード:{" "}
+            <a href="https://github.com/tamago572/bunbun-blog-renewed">
+              GitHub
+            </a>
+          </p>
+          <p>Built date: {new Date().toLocaleString()}</p>
+          <p>© {new Date().getFullYear()} Bunbun</p>
+        </footer>
       </body>
     </html>
   );

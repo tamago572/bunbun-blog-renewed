@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+  font-family: "MS PGothic", sans-serif;
+  background-color: #e4e4e4;
+  color: #000;
+}
+
+.marquee {
+  animation: marqueeAnim infinite 20s linear;
+}
+
+@keyframes marqueeAnim {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.accessCounter {
+  color: green;
+}

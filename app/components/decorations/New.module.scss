@@ -1,0 +1,14 @@
+.blink {
+  animation: blink 1s steps(1, start) infinite;
+}
+
+@keyframes blink {
+  0%   { opacity: 1; }  /* 表示 */
+  50%  { opacity: 0; }  /* 非表示 */
+  100% { opacity: 1; }  /* 表示に戻る */
+}
+
+/* アクセシビリティ: 動きを抑えたいユーザー向け */
+@media (prefers-reduced-motion: reduce) {
+  .blink { animation: none; opacity: 1; }
+}
