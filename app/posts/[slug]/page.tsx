@@ -6,7 +6,7 @@ import {
 } from "@/app/utils/articleIO";
 import "@/app/styles/main.css";
 import { Noto_Sans_JP } from "next/font/google";
-import Header from "@/app/components/header";
+import Header from "@/app/components/Header";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 
 const notoSansJP = Noto_Sans_JP({

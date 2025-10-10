@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/top.css";
-import { NewDecoration } from "./components/decorations/new";
+import { NewDecoration } from "./components/decorations/New";
 import {
   getPostsSlug,
   getPostsTitle,

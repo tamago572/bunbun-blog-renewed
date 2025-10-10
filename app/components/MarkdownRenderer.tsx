@@ -8,22 +8,34 @@ import HeadingList from "./HeadingList";
 export default function MarkdownRenderer({ content }: { content: string }) {
   const MDComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="text-3xl font-bold my-4">{props.children}</h1>
+      <h1 className="text-3xl font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h1>
     ),
     h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="text-2xl font-bold my-4">{props.children}</h2>
+      <h2 className="text-2xl font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h2>
     ),
     h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h3 className="text-xl font-bold my-4">{props.children}</h3>
+      <h3 className="text-xl font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h3>
     ),
     h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h4 className="text-lg font-bold my-4">{props.children}</h4>
+      <h4 className="text-lg font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h4>
     ),
     h5: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h5 className="text-base font-bold my-4">{props.children}</h5>
+      <h5 className="text-base font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h5>
     ),
     h6: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h6 className="text-sm font-bold my-4">{props.children}</h6>
+      <h6 className="text-sm font-bold my-4" id={props.children?.toString()}>
+        {props.children}
+      </h6>
     ),
     a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
       <a href={props.href} className="text-blue-600 hover:underline">
@@ -47,7 +59,13 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         lang: props.className?.replace("language-", "") || "txt",
         theme: "one-dark-pro",
       });
-      return <div dangerouslySetInnerHTML={{ __html: html }} />;
+      return (
+        <div
+          dangerouslySetInnerHTML={{ __html: html }}
+          className="overflow-x-auto"
+          style={{ backgroundColor: "#282c34" }}
+        />
+      );
     },
     headinglist: () => {
       console.log(content);

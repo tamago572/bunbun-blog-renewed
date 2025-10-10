@@ -11,7 +11,8 @@ Macの綺麗な画面でブルアカをプレイしたい！メモロビを大�
 ＜注意＞
 すべて自己責任でお願いします。また、後述する「利用規約について」もお読みください。もし懲戒免職(BAN)や課金あたりでトラブルなど、問題が起きても私は一切責任を負えません。
 
-<HeadingList></HeadingList>
+<!-- 目次 -->
+<div><HeadingList></HeadingList></div>
 
 ## 筆者の環境
 
@@ -148,52 +149,3 @@ PlayCoverでは直接に動かしています。また、アプリに対して�
 ブルアカをやっていてM1/M2 Macを持っている先生は是非一度試してみてください。
 
 ただし自己責任でお願いします。私は一切責任を負えません。
-
-## これはテスト
-
-### TypeScript
-
-以下TypeScript
-
-```typescript
-import fs from "node:fs";
-
-const POST_PATH = "posts/";
-
-export async function getPostContent(filename: string): Promise<string> {
-  const content = await fs.promises.readFile(
-    `${POST_PATH}/${filename}`,
-    "utf-8",
-  );
-  return content;
-}
-
-export async function getPostTitle(filename: string): Promise<string> {
-  const content = await getPostContent(filename);
-  const match = content.match(/^# (.+)$/m);
-  return match ? match[1] : "Untitled";
-}
-
-export async function getPostUpdateDate(
-  filename: string,
-): Promise<Date | null> {
-  const date = await fs.promises.stat(`${POST_PATH}/${filename}`);
-  return date ? date.mtime : null; // mtime→ファイルの最終更新日時を取得
-}
-
-export async function getPostsFileList(): Promise<string[]> {
-  const postfiles = await fs.promises.readdir(POST_PATH);
-  return postfiles;
-}
-
-export async function getPostsSlug(): Promise<string[]> {
-  const postfiles = await getPostsFileList();
-  return postfiles.map((filename) => filename.replace(/\.md$/, ""));
-}
-
-export async function getPostsTitle(): Promise<string[]> {
-  const files = await getPostsFileList();
-  const titles = await Promise.all(files.map((file) => getPostTitle(file)));
-  return titles;
-}
-```
