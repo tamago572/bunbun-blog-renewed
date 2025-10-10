@@ -73,15 +73,18 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
       return <HeadingList markdown={content} />;
     },
-    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-        <Image
-            src={props.src || "/demo.webp"}
-            alt={props.alt || ""}
-            className="my-4 max-w-full h-auto"
-            width={720}
-            height={480}
-        />
-    ),
+    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
+        const src = typeof props.src === "string" ? props.src : "/demo.webp";
+        return (
+            <Image
+                src={src}
+                alt={props.alt || ""}
+                className="my-4 max-w-full h-auto"
+                width={720}
+                height={480}
+            />
+        );
+    },
   };
   return (
     <Markdown
