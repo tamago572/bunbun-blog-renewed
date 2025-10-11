@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/top.css";
+import AccessCounter from "./components/AccessCounter";
 import { NewDecoration } from "./components/decorations/New";
 import {
   getPostsSlug,
@@ -28,7 +29,7 @@ export default async function Home() {
       <p>PCやスマホ、プログラミングの技術系ブログを投稿をします。</p>
 
       <h2 className="accessCounter text-2xl">
-        あなたは [0][0][0][0][0][1] 人目の訪問者です
+        <AccessCounter />
       </h2>
 
       <hr />
