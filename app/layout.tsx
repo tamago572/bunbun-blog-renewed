@@ -13,9 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="">
-        <main>{children}</main>
-
+      <body>
+        <>{children}</>
         <footer>
           <p>
             ソースコード:{" "}
