@@ -1,18 +1,12 @@
+import Link from "next/link";
+import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import {
   getPostContent,
   getPostsSlug,
   getPostTitle,
   getPostUpdateDate,
 } from "@/app/utils/articleIO";
-import "@/app/styles/main.css";
-import { Noto_Sans_JP } from "next/font/google";
-import Header from "@/app/components/Header";
-import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 
-const notoSansJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 interface ArticlePageProps {
   params: {
@@ -24,16 +18,16 @@ export default async function ArticlePage(props: ArticlePageProps) {
   const { slug } = await props.params;
   const content = await getPostContent(`${slug}.md`);
   const updatedDate = await getPostUpdateDate(`${slug}.md`);
+  const title = await getPostTitle(`${slug}.md`);
 
   return (
-    <div className={`${notoSansJP.className}`}>
-      <Header />
-
-      <div className="p-8">
+      <>
+        <div className="mb-4">
+          <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt; <span>{title}</span>
+        </div>
         <span>最終更新日: {updatedDate?.toLocaleString()}</span>
         <MarkdownRenderer content={content} />
-      </div>
-    </div>
+      </>
   );
 }
 
@@ -49,5 +43,5 @@ export async function generateMetadata(props: ArticlePageProps) {
   const { slug } = await props.params;
   const title = await getPostTitle(`${slug}.md`);
 
-  return { title: title };
+  return { title: `${title} | Bunbun Blog` };
 }

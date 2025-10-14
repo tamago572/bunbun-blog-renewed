@@ -16,14 +16,14 @@ export default function RootLayout({
       <body>
         <>{children}</>
         <footer>
+          <p>© {new Date().getFullYear()} Bunbun</p>
+          <p>Built date: {new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"})}</p>
           <p>
             ソースコード:{" "}
             <a href="https://github.com/tamago572/bunbun-blog-renewed">
               GitHub
             </a>
           </p>
-          <p>Built date: {new Date().toLocaleString()}</p>
-          <p>© {new Date().getFullYear()} Bunbun</p>
         </footer>
       </body>
     </html>

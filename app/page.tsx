@@ -51,6 +51,7 @@ export default async function Home() {
 
       <span>[1]</span>
       <span>[&gt;]</span>
+      <a href="/posts">記事一覧へ</a>
 
       <h2 className="text-2xl">リンク</h2>
       <ul className="text-left list-item">
