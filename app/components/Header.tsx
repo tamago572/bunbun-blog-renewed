@@ -5,7 +5,9 @@ export default function Header() {
     <div>
       <ul className="flex gap-4 p-4 bg-gray-200">
         <li>
-          <a href="/" className={`${style.headerLink}`}>Home</a>
+          <a href="/" className={`${style.headerLink}`}>
+            Home
+          </a>
         </li>
         {/* <li>Articles</li> */}
       </ul>

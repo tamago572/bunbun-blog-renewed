@@ -27,7 +27,7 @@ export async function getPostUpdateDate(
     const filePath = `${POST_PATH}/${filename}`;
     // Gitのログからファイルの最終コミット日時（ISO 8601形式）を取得
     const { stdout } = await execAsync(
-      `git log -1 --pretty=format:%cI -- "${filePath}"`
+      `git log -1 --pretty=format:%cI -- "${filePath}"`,
     );
 
     if (stdout.trim()) {
@@ -37,7 +37,6 @@ export async function getPostUpdateDate(
     // Git履歴にない場合は、ファイルのmtimeをフォールバックとして使用
     const stats = await fs.promises.stat(filePath);
     return stats.mtime;
-
   } catch (error) {
     console.error(`Error getting update date for ${filename}:`, error);
     // エラーが発生した場合は、ファイルのmtimeを使用

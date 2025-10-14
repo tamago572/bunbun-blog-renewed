@@ -7,7 +7,6 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "700"],
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -15,14 +14,13 @@ export default function RootLayout({
 }>) {
   return (
     <div className={`${notoSansJP.className}`}>
-
-        {/* TODO: サイドバーを実装する
+      {/* TODO: サイドバーを実装する
           widthを変えるよりもgridレイアウトに変えるほうがいいかも
         */}
-        <Header />
-        <main className="mx-auto lg:w-4/5 xl:w-2/3 2xl:w-3/5 p-8">
-          {children}
-        </main>
+      <Header />
+      <main className="mx-auto lg:w-4/5 xl:w-2/3 2xl:w-3/5 p-8">
+        {children}
+      </main>
     </div>
   );
 }

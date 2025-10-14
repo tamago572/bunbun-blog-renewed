@@ -7,7 +7,6 @@ import {
   getPostUpdateDate,
 } from "@/app/utils/articleIO";
 
-
 interface ArticlePageProps {
   params: {
     slug: string;
@@ -21,13 +20,14 @@ export default async function ArticlePage(props: ArticlePageProps) {
   const title = await getPostTitle(`${slug}.md`);
 
   return (
-      <>
-        <div className="mb-4">
-          <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt; <span>{title}</span>
-        </div>
-        <span>最終更新日: {updatedDate?.toLocaleString()}</span>
-        <MarkdownRenderer content={content} />
-      </>
+    <>
+      <div className="mb-4">
+        <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
+        <span>{title}</span>
+      </div>
+      <span>最終更新日: {updatedDate?.toLocaleString()}</span>
+      <MarkdownRenderer content={content} />
+    </>
   );
 }
 
