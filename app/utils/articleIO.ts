@@ -23,6 +23,14 @@ export async function getPostUpdateDate(
   return date ? date.mtime : null; // mtime→ファイルの最終更新日時を取得
 }
 
+export async function getPostsUpdateDates(): Promise<(Date | null)[]> {
+  const postfiles = await getPostsFileList();
+  const dates = await Promise.all(
+    postfiles.map((file) => getPostUpdateDate(file)),
+  );
+  return dates;
+}
+
 export async function getPostsFileList(): Promise<string[]> {
   const postfiles = await fs.promises.readdir(POST_PATH);
   return postfiles;

@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { getPostsSlug, getPostsTitle, getPostUpdateDate } from "../utils/articleIO";
+import { getPostsSlug, getPostsTitle, getPostsUpdateDates, getPostUpdateDate } from "../utils/articleIO";
 
 export default async function PostsPage() {
       // mdファイルが格納されているディレクトリを取得し、slugのみ返す
       const postsTitle = await getPostsTitle();
       const postsSlug = await getPostsSlug();
-      const postsUpdateDates = await Promise.all(
-        postsSlug.map((slug) => getPostUpdateDate(`${slug}.md`)),
-      );
+  const postsUpdateDates = await getPostsUpdateDates();
+
 
     return (
     <>

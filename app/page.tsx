@@ -5,16 +5,14 @@ import { NewDecoration } from "./components/decorations/New";
 import {
   getPostsSlug,
   getPostsTitle,
-  getPostUpdateDate,
+  getPostsUpdateDates,
 } from "./utils/articleIO";
 
 export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
   const postsTitle = await getPostsTitle();
   const postsSlug = await getPostsSlug();
-  const postsUpdateDates = await Promise.all(
-    postsSlug.map((slug) => getPostUpdateDate(`${slug}.md`)),
-  );
+  const postsUpdateDates = await getPostsUpdateDates()
 
   return (
     <div className="text-black prose prose-zinc max-w-none">
