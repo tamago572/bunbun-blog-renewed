@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 1. Gitの全履歴を取得
       - run: npm install && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

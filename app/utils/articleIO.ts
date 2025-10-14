@@ -1,4 +1,8 @@
+import { exec } from "node:child_process";
 import fs from "node:fs";
+import { promisify } from "node:util";
+
+const execAsync = promisify(exec);
 
 const POST_PATH = "posts/";
 
@@ -19,8 +23,32 @@ export async function getPostTitle(filename: string): Promise<string> {
 export async function getPostUpdateDate(
   filename: string,
 ): Promise<Date | null> {
-  const date = await fs.promises.stat(`${POST_PATH}/${filename}`);
-  return date ? date.mtime : null; // mtime→ファイルの最終更新日時を取得
+  try {
+    const filePath = `${POST_PATH}/${filename}`;
+    // Gitのログからファイルの最終コミット日時（ISO 8601形式）を取得
+    const { stdout } = await execAsync(
+      `git log -1 --pretty=format:%cI -- "${filePath}"`
+    );
+
+    if (stdout.trim()) {
+      return new Date(stdout.trim());
+    }
+
+    // Git履歴にない場合は、ファイルのmtimeをフォールバックとして使用
+    const stats = await fs.promises.stat(filePath);
+    return stats.mtime;
+
+  } catch (error) {
+    console.error(`Error getting update date for ${filename}:`, error);
+    // エラーが発生した場合は、ファイルのmtimeを使用
+    try {
+      const stats = await fs.promises.stat(`${POST_PATH}/${filename}`);
+      return stats.mtime;
+    } catch (statError) {
+      console.error(`Error getting file stats for ${filename}:`, statError);
+      return null;
+    }
+  }
 }
 
 export async function getPostsUpdateDates(): Promise<(Date | null)[]> {
