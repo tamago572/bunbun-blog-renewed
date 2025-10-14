@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getPostsSlug, getPostsTitle, getPostsUpdateDates, getPostUpdateDate } from "../utils/articleIO";
 
@@ -29,4 +30,11 @@ export default async function PostsPage() {
         </ul>
     </>
     )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "記事一覧 | Bunbun Blog",
+    description: "PCやスマホ、プログラミングの技術系ブログを投稿します。",
+  };
 }
