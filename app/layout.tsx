@@ -11,13 +11,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const commitHash = process.env.NEXT_PUBLIC_GIT_COMMIT_SHA;
+  const shortHash = commitHash?.slice(0, 7);
+  const repoUrl = "https://github.com/tamago572/bunbun-blog-renewed";
+
+
   return (
     <html lang="ja">
       <body>
         <>{children}</>
         <footer>
           <p>© {new Date().getFullYear()} Bunbun</p>
-          <p>Built date: {new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"})}</p>
+          <p>
+            Built date: {new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"})}
+
+            {shortHash && (
+              <>
+                {" (commit: "}
+                <a href={`${repoUrl}/commit/${commitHash}`} target="_blank" rel="noopener noreferrer">
+                  {shortHash}
+                </a>
+                {")"}
+              </>
+            )}
+          </p>
           <p>
             ソースコード:{" "}
             <a href="https://github.com/tamago572/bunbun-blog-renewed">
