@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/styles/globals.css";
+import FirebaseInit from "./components/FirebaseInit";
 
 export const metadata: Metadata = {
   title: "Bunbun Blog",
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <FirebaseInit /> {/* クライアントでFirebase起動 */}
         <>{children}</>
         <footer>
           <p>
