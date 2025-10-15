@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/styles/globals.css";
+import FirebaseInit from "./components/FirebaseInit";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,20 +16,24 @@ export default function RootLayout({
   const shortHash = commitHash?.slice(0, 7);
   const repoUrl = "https://github.com/tamago572/bunbun-blog-renewed";
 
-
   return (
     <html lang="ja">
       <body>
+        <FirebaseInit /> {/* クライアントでFirebase起動 */}
         <>{children}</>
         <footer>
           <p>© {new Date().getFullYear()} Bunbun</p>
           <p>
-            Built date: {new Date().toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"})}
-
+            Built date:{" "}
+            {new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}
             {shortHash && (
               <>
                 {" (commit: "}
-                <a href={`${repoUrl}/commit/${commitHash}`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={`${repoUrl}/commit/${commitHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {shortHash}
                 </a>
                 {")"}
