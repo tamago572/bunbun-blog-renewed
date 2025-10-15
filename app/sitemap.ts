@@ -1,9 +1,9 @@
 export const dynamic = "force-static";
 
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { getPostsSlug, getPostsUpdateDates } from "./utils/articleIO";
 
-const SITE_URL = "https://blog-renewed.web.app";
+const SITE_URL = "https://blog.bunbunapp.dev";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsSlug = await getPostsSlug();
