@@ -1,23 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/" # Location of GitHub Actions workflows
+    directory: "/"
     schedule:
       interval: "weekly"
 
-# If your repository manages JS deps (package.json / bun.lockb / package-lock.json / yarn.lock),
-# replace or add an entry for the appropriate ecosystem, for example:
-# - For bun:
-#   - package-ecosystem: "bun"
-#     directory: "/"
-#     schedule:
-#       interval: "weekly"
-#
-- For npm:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-#
-# Pick the one(s) that match your repository. The original error occurs because package-ecosystem
-# must be one of the allowed non-empty values (e.g. npm, bun, github-actions, etc.).
