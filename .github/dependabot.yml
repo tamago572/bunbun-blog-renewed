@@ -1,11 +1,23 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of GitHub Actions workflows
     schedule:
       interval: "weekly"
+
+# If your repository manages JS deps (package.json / bun.lockb / package-lock.json / yarn.lock),
+# replace or add an entry for the appropriate ecosystem, for example:
+# - For bun:
+#   - package-ecosystem: "bun"
+#     directory: "/"
+#     schedule:
+#       interval: "weekly"
+#
+- For npm:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+#
+# Pick the one(s) that match your repository. The original error occurs because package-ecosystem
+# must be one of the allowed non-empty values (e.g. npm, bun, github-actions, etc.).
