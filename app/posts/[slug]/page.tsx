@@ -5,6 +5,7 @@ import {
   getPostsSlug,
   getPostTitle,
   getPostUpdateDate,
+  getPreviousPostSlug,
 } from "@/app/utils/articleIO";
 
 interface ArticlePageProps {
@@ -18,6 +19,10 @@ export default async function ArticlePage(props: ArticlePageProps) {
   const content = await getPostContent(`${slug}.md`);
   const updatedDate = await getPostUpdateDate(`${slug}.md`);
   const title = await getPostTitle(`${slug}.md`);
+  const previousPostSlug = await getPreviousPostSlug(slug);
+  const previousPostTitle = await getPostTitle(`${previousPostSlug}.md`);
+  
+
 
   return (
     <>
@@ -27,6 +32,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
       </div>
       <span>最終更新日: {updatedDate?.toLocaleString()}</span>
       <MarkdownRenderer content={content} />
+
+      <h2 className="text-2xl font-bold my-4">関連記事</h2>
+      <p>前の記事: <Link href={`/posts/${previousPostSlug}`}>{previousPostTitle}</Link></p>
+      {/* <p>次の記事: <Link href={`/posts/${getNextPostSlug(slug)}`}>次の記事タイトル</Link></p> */}
+
     </>
   );
 }

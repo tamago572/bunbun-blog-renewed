@@ -4,7 +4,6 @@ import {
   getPostsSlug,
   getPostsTitle,
   getPostsUpdateDates,
-  getPostUpdateDate,
 } from "../utils/articleIO";
 
 export default async function PostsPage() {

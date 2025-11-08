@@ -6,13 +6,13 @@ import styles from "./HeadingList.module.scss";
 const HeadingList = ({ markdown }: { markdown: string }) => {
   const lines = markdown.split("\n");
   const headingArray = lines.filter((line) => line.startsWith("#"));
-  console.log(headingArray);
+  // console.log(headingArray);
 
   const headingList = headingArray.map((heading, i) => {
     const level = heading.search(/\s/);
-    console.log(heading, " level: ", level, "\n");
+    // console.log(heading, " level: ", level, "\n");
     const text = heading.slice(level + 1);
-    console.log(text);
+    // console.log(text);
 
     const aTag = (
       <a href={`#${text}`} className={styles.list_item}>

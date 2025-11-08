@@ -69,7 +69,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       );
     },
     headinglist: () => {
-      console.log(content);
+      // console.log(content);
 
       return <HeadingList markdown={content} />;
     },
