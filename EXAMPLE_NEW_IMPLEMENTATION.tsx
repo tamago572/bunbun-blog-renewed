@@ -9,7 +9,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import Link from "next/link";
 import Header from "@/app/components/Header";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
-import { getPost, getPostsSlug, getPreviousPostSlug } from "@/app/utils/articleIO";
+import { getPost, getPostsSlug, getAdjacentPosts } from "@/app/utils/articleIO";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -28,8 +28,9 @@ interface ArticlePageProps {
  * 変更点:
  * - getPostContent, getPostTitle, getPostUpdateDate の3つの関数呼び出しを
  *   getPost 1つに統合
+ * - getPreviousPostSlug を getAdjacentPosts に置き換え、1回の呼び出しで前後両方を取得
  * - コードが簡潔になり、可読性が向上
- * - ファイル読み込みが1回で済むため、パフォーマンスが向上
+ * - ファイル読み込みと処理が最適化され、パフォーマンスが向上
  */
 export default async function ArticlePage(props: ArticlePageProps) {
   const { slug } = props.params;
@@ -37,12 +38,8 @@ export default async function ArticlePage(props: ArticlePageProps) {
   // 🎯 新実装: 1回の呼び出しで全情報を取得
   const post = await getPost(slug);
 
-  // 前の記事のスラッグを取得（改善されたロジックを使用）
-  const previousPostSlug = await getPreviousPostSlug(slug);
-  let previousPost = null;
-  if (previousPostSlug) {
-    previousPost = await getPost(previousPostSlug);
-  }
+  // 🎯 新実装: 前後の記事を1回の呼び出しで効率的に取得
+  const { previous, next } = await getAdjacentPosts(slug);
 
   return (
     <div className={`${notoSansJP.className}`}>
@@ -55,14 +52,6 @@ export default async function ArticlePage(props: ArticlePageProps) {
           <span>{post.title}</span>
         </nav>
 
-        {/* 前の記事へのリンク */}
-        {previousPost && (
-          <p className="mb-2">
-            前の記事:{" "}
-            <Link href={`/posts/${previousPost.slug}`}>{previousPost.title}</Link>
-          </p>
-        )}
-
         {/* 更新日 */}
         <p className="text-xs text-gray-500 mb-4">
           更新日: {post.updatedDate?.toLocaleString()}
@@ -70,6 +59,24 @@ export default async function ArticlePage(props: ArticlePageProps) {
 
         {/* 記事本文 */}
         <MarkdownRenderer content={post.content} />
+
+        {/* 記事ナビゲーション（前後の記事へのリンク） */}
+        <nav className="mt-8 pt-4 border-t flex justify-between">
+          <div>
+            {previous && (
+              <Link href={`/posts/${previous.slug}`} className="text-blue-600 hover:underline">
+                ← 前の記事: {previous.title}
+              </Link>
+            )}
+          </div>
+          <div>
+            {next && (
+              <Link href={`/posts/${next.slug}`} className="text-blue-600 hover:underline">
+                次の記事: {next.title} →
+              </Link>
+            )}
+          </div>
+        </nav>
       </div>
     </div>
   );

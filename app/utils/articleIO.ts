@@ -38,11 +38,11 @@ function extractTitleFromContent(content: string): string {
  * 指定されたスラッグの記事データを完全な形で取得する（推奨）
  * この関数は1回のファイル読み込みで記事のすべての情報を取得するため、
  * 個別の関数（getPostContent, getPostTitle など）を複数回呼び出すより効率的
- * 
+ *
  * @param slug - 記事のスラッグ（例: "example"）
  * @returns 記事の完全なデータ（Post型オブジェクト）
  * @throws ファイルが存在しない場合やアクセスできない場合にエラーをスロー
- * 
+ *
  * @example
  * ```typescript
  * const post = await getPost("my-article");
@@ -103,9 +103,9 @@ export async function getPost(slug: string): Promise<Post> {
 /**
  * すべての記事データを取得する
  * 各記事のファイルを読み込み、Post型オブジェクトの配列として返す
- * 
+ *
  * @returns すべての記事データの配列
- * 
+ *
  * @example
  * ```typescript
  * const posts = await getAllPosts();
@@ -117,7 +117,7 @@ export async function getPost(slug: string): Promise<Post> {
 export async function getAllPosts(): Promise<Post[]> {
   // postsディレクトリ内のすべてのファイル名を取得
   const filenames = await fs.promises.readdir(POST_PATH);
-  
+
   // 各ファイル名からスラッグを抽出し、getPost()で記事データを取得
   // Promise.all() で並列処理することで高速化
   const posts = await Promise.all(
@@ -136,9 +136,9 @@ export async function getAllPosts(): Promise<Post[]> {
 /**
  * すべての記事データを更新日時順（降順：新しい順）にソートして取得する
  * ブログのトップページや記事一覧ページでの使用を想定
- * 
+ *
  * @returns 更新日時順にソートされた記事データの配列（新しい記事が先頭）
- * 
+ *
  * @example
  * ```typescript
  * const sortedPosts = await getAllPostsSortedByDate();
@@ -168,19 +168,115 @@ export async function getAllPostsSortedByDate(): Promise<Post[]> {
 }
 
 /**
- * 指定されたファイル名の記事内容を取得する
+ * 指定された記事の前後の記事を取得する（推奨）
+ * 更新日時順で、現在の記事の前（新しい）と後（古い）の記事を返す
  * 
+ * この関数は1回の呼び出しで前後両方の記事情報を効率的に取得できます。
+ * 記事ページのナビゲーション（前へ・次へリンク）での使用を想定しています。
+ * 
+ * @param currentSlug - 現在の記事のスラッグ
+ * @returns 前の記事と次の記事のPostオブジェクト（存在しない場合は null）
+ * 
+ * @example
+ * ```typescript
+ * const { previous, next } = await getAdjacentPosts("my-article");
+ * 
+ * // 前の記事へのリンク（より新しい記事）
+ * if (previous) {
+ *   console.log(`前: ${previous.title} (/posts/${previous.slug})`);
+ * }
+ * 
+ * // 次の記事へのリンク（より古い記事）
+ * if (next) {
+ *   console.log(`次: ${next.title} (/posts/${next.slug})`);
+ * }
+ * ```
+ */
+export async function getAdjacentPosts(
+  currentSlug: string,
+): Promise<{
+  previous: Post | null;
+  next: Post | null;
+}> {
+  // すべての記事を更新日時順（新しい順）で取得
+  const posts = await getAllPostsSortedByDate();
+
+  // 現在の記事のインデックスを探す
+  const currentIndex = posts.findIndex((post) => post.slug === currentSlug);
+
+  // 現在の記事が見つからない場合は両方nullを返す
+  if (currentIndex === -1) {
+    return { previous: null, next: null };
+  }
+
+  return {
+    // previous: 配列の前（インデックスが小さい）= より新しい記事
+    previous: currentIndex > 0 ? posts[currentIndex - 1] : null,
+    // next: 配列の後ろ（インデックスが大きい）= より古い記事
+    next: currentIndex + 1 < posts.length ? posts[currentIndex + 1] : null,
+  };
+}
+
+/**
+ * 指定された記事の1つ前（新しい）の記事を取得する
+ * 更新日時順で、現在の記事より新しい記事を返す
+ * 
+ * 注意: 前後両方の記事が必要な場合は、getAdjacentPosts() を使用する方が効率的です。
+ * 
+ * @param currentSlug - 現在の記事のスラッグ
+ * @returns 前の記事のPostオブジェクト（存在しない場合は null）
+ * 
+ * @example
+ * ```typescript
+ * const previousPost = await getPreviousPost("my-article");
+ * if (previousPost) {
+ *   console.log(`前の記事: ${previousPost.title}`);
+ * }
+ * ```
+ */
+export async function getPreviousPost(
+  currentSlug: string,
+): Promise<Post | null> {
+  const { previous } = await getAdjacentPosts(currentSlug);
+  return previous;
+}
+
+/**
+ * 指定された記事の1つ次（古い）の記事を取得する
+ * 更新日時順で、現在の記事より古い記事を返す
+ * 
+ * 注意: 前後両方の記事が必要な場合は、getAdjacentPosts() を使用する方が効率的です。
+ * 
+ * @param currentSlug - 現在の記事のスラッグ
+ * @returns 次の記事のPostオブジェクト（存在しない場合は null）
+ * 
+ * @example
+ * ```typescript
+ * const nextPost = await getNextPost("my-article");
+ * if (nextPost) {
+ *   console.log(`次の記事: ${nextPost.title}`);
+ * }
+ * ```
+ */
+export async function getNextPost(currentSlug: string): Promise<Post | null> {
+  const { next } = await getAdjacentPosts(currentSlug);
+  return next;
+}
+
+/**
+ * 指定されたファイル名の記事内容を取得する
+ *
  * @deprecated この関数は非効率的です。代わりに getPost() を使用してください。
  * getPost() は1回のファイル読み込みで記事のすべての情報（content, title, slug, updatedDate）を取得できます。
- * 
+ *
  * @param filename - 記事ファイル名（例: "example.md"）
  * @returns 記事の内容（文字列）
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const content = await getPostContent("example.md");
- * 
+ *
  * // 推奨
  * const post = await getPost("example");
  * const content = post.content;
@@ -197,20 +293,20 @@ export async function getPostContent(filename: string): Promise<string> {
 
 /**
  * 記事のタイトルを取得する
- * 
+ *
  * @deprecated この関数はファイルを読み込んでタイトルのみを返すため非効率的です。
  * 代わりに getPost() または getAllPosts() の使用を推奨します。
- * 
+ *
  * Markdown の最初の見出し1（# タイトル）を抽出
- * 
+ *
  * @param filename - 記事ファイル名（例: "example.md"）
  * @returns タイトル文字列（見つからない場合は "Untitled"）
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const title = await getPostTitle("example.md");
- * 
+ *
  * // 推奨
  * const post = await getPost("example");
  * const title = post.title;
@@ -223,20 +319,20 @@ export async function getPostTitle(filename: string): Promise<string> {
 
 /**
  * 記事の最終更新日を取得する
- * 
+ *
  * @deprecated この関数は非効率的です。代わりに getPost() を使用してください。
  * getPost() は1回のファイル読み込みで記事のすべての情報を取得できます。
- * 
+ *
  * Gitのコミット履歴から取得し、履歴がない場合はファイルのmtimeを使用
- * 
+ *
  * @param filename - 記事ファイル名（例: "example.md"）
  * @returns 最終更新日（取得できない場合は null）
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const date = await getPostUpdateDate("example.md");
- * 
+ *
  * // 推奨
  * const post = await getPost("example");
  * const date = post.updatedDate;
@@ -274,17 +370,17 @@ export async function getPostUpdateDate(
 
 /**
  * すべての記事の最終更新日を配列で取得する
- * 
+ *
  * @deprecated この関数は非効率的で、ファイル名との対応関係が失われます。
  * 代わりに getAllPosts() または getAllPostsSortedByDate() を使用してください。
- * 
+ *
  * @returns 各記事の最終更新日の配列（取得できない記事は null）
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const dates = await getPostsUpdateDates();
- * 
+ *
  * // 推奨
  * const posts = await getAllPosts();
  * const dates = posts.map(post => post.updatedDate);
@@ -300,17 +396,17 @@ export async function getPostsUpdateDates(): Promise<(Date | null)[]> {
 
 /**
  * posts ディレクトリ内のすべてのファイル名を取得する
- * 
+ *
  * @deprecated この関数は低レベル過ぎます。代わりに getAllPosts() を使用してください。
  * getAllPosts() は Post 型のオブジェクトとして、より使いやすい形式で記事データを返します。
- * 
+ *
  * @returns ファイル名の配列
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const files = await getPostsFileList();
- * 
+ *
  * // 推奨
  * const posts = await getAllPosts();
  * const filenames = posts.map(post => `${post.slug}.md`);
@@ -332,17 +428,17 @@ export async function getPostsSlug(): Promise<string[]> {
 
 /**
  * すべての記事のタイトルを取得する
- * 
+ *
  * @deprecated この関数は非効率的で、各記事のファイルを複数回読み込みます。
  * 代わりに getAllPosts() を使用してください。
- * 
+ *
  * @returns タイトルの配列
- * 
+ *
  * @example
  * ```typescript
  * // 非推奨
  * const titles = await getPostsTitle();
- * 
+ *
  * // 推奨
  * const posts = await getAllPosts();
  * const titles = posts.map(post => post.title);
@@ -357,15 +453,33 @@ export async function getPostsTitle(): Promise<string[]> {
 /**
  * 指定された記事より1つ古い記事のスラッグを取得する
  * 更新日時順で、現在の記事より古く、かつ最も新しい記事を返す
- * 
+ *
+ * @deprecated この関数はスラッグのみを返すため、タイトルなどの情報が取得できません。
+ * 代わりに getAdjacentPosts() または getNextPost() を使用してください。
+ * これらの関数は Post オブジェクト全体を返すため、タイトルやその他の情報も一緒に取得できます。
+ *
  * @param currentSlug - 現在の記事のスラッグ
  * @returns 前の記事のスラッグ（存在しない場合は null）
- * 
+ *
  * @example
  * ```typescript
+ * // 非推奨
  * const prevSlug = await getPreviousPostSlug("my-latest-article");
  * if (prevSlug) {
- *   console.log(`前の記事: /posts/${prevSlug}`);
+ *   const prevPost = await getPost(prevSlug); // 追加のファイル読み込みが必要
+ *   console.log(`前の記事: ${prevPost.title}`);
+ * }
+ *
+ * // 推奨（両方の記事が必要な場合）
+ * const { previous, next } = await getAdjacentPosts("my-latest-article");
+ * if (next) {
+ *   console.log(`前の記事: ${next.title}`);
+ * }
+ *
+ * // 推奨（次の記事のみ必要な場合）
+ * const nextPost = await getNextPost("my-latest-article");
+ * if (nextPost) {
+ *   console.log(`前の記事: ${nextPost.title}`);
  * }
  * ```
  */
@@ -377,7 +491,7 @@ export async function getPreviousPostSlug(
 
   // 現在の記事のインデックスを探す
   const currentIndex = posts.findIndex((post) => post.slug === currentSlug);
-  
+
   // 現在の記事が見つからない場合はnullを返す
   if (currentIndex === -1) return null;
 
