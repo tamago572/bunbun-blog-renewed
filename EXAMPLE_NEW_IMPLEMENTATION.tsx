@@ -9,7 +9,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import Link from "next/link";
 import Header from "@/app/components/Header";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
-import { getPost, getPostsSlug, getAdjacentPosts } from "@/app/utils/articleIO";
+import { getAdjacentPosts, getPost, getPostsSlug } from "@/app/utils/articleIO";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
