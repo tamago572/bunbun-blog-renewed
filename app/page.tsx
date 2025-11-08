@@ -12,7 +12,7 @@ export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
   const postsTitle = await getPostsTitle();
   const postsSlug = await getPostsSlug();
-  const postsUpdateDates = await getPostsUpdateDates()
+  const postsUpdateDates = await getPostsUpdateDates();
 
   return (
     <div className="text-black prose prose-zinc max-w-none">
