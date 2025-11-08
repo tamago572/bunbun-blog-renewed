@@ -169,8 +169,22 @@ export async function getAllPostsSortedByDate(): Promise<Post[]> {
 
 /**
  * 指定されたファイル名の記事内容を取得する
+ * 
+ * @deprecated この関数は非効率的です。代わりに getPost() を使用してください。
+ * getPost() は1回のファイル読み込みで記事のすべての情報（content, title, slug, updatedDate）を取得できます。
+ * 
  * @param filename - 記事ファイル名（例: "example.md"）
  * @returns 記事の内容（文字列）
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const content = await getPostContent("example.md");
+ * 
+ * // 推奨
+ * const post = await getPost("example");
+ * const content = post.content;
+ * ```
  */
 export async function getPostContent(filename: string): Promise<string> {
   console.log(`Reading post content from ${filename}`);
@@ -182,14 +196,25 @@ export async function getPostContent(filename: string): Promise<string> {
 }
 
 /**
- * 記事のタイトルを取得する（後方互換性のため残存）
+ * 記事のタイトルを取得する
  * 
- * 注意: この関数はファイルを読み込んでタイトルのみを返すため非効率的です。
- * 可能であれば getPost() または getAllPosts() の使用を推奨します。
+ * @deprecated この関数はファイルを読み込んでタイトルのみを返すため非効率的です。
+ * 代わりに getPost() または getAllPosts() の使用を推奨します。
  * 
  * Markdown の最初の見出し1（# タイトル）を抽出
- * @param filename - 記事ファイル名
+ * 
+ * @param filename - 記事ファイル名（例: "example.md"）
  * @returns タイトル文字列（見つからない場合は "Untitled"）
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const title = await getPostTitle("example.md");
+ * 
+ * // 推奨
+ * const post = await getPost("example");
+ * const title = post.title;
+ * ```
  */
 export async function getPostTitle(filename: string): Promise<string> {
   const content = await getPostContent(filename);
@@ -198,9 +223,24 @@ export async function getPostTitle(filename: string): Promise<string> {
 
 /**
  * 記事の最終更新日を取得する
+ * 
+ * @deprecated この関数は非効率的です。代わりに getPost() を使用してください。
+ * getPost() は1回のファイル読み込みで記事のすべての情報を取得できます。
+ * 
  * Gitのコミット履歴から取得し、履歴がない場合はファイルのmtimeを使用
- * @param filename - 記事ファイル名
+ * 
+ * @param filename - 記事ファイル名（例: "example.md"）
  * @returns 最終更新日（取得できない場合は null）
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const date = await getPostUpdateDate("example.md");
+ * 
+ * // 推奨
+ * const post = await getPost("example");
+ * const date = post.updatedDate;
+ * ```
  */
 export async function getPostUpdateDate(
   filename: string,
@@ -234,7 +274,21 @@ export async function getPostUpdateDate(
 
 /**
  * すべての記事の最終更新日を配列で取得する
+ * 
+ * @deprecated この関数は非効率的で、ファイル名との対応関係が失われます。
+ * 代わりに getAllPosts() または getAllPostsSortedByDate() を使用してください。
+ * 
  * @returns 各記事の最終更新日の配列（取得できない記事は null）
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const dates = await getPostsUpdateDates();
+ * 
+ * // 推奨
+ * const posts = await getAllPosts();
+ * const dates = posts.map(post => post.updatedDate);
+ * ```
  */
 export async function getPostsUpdateDates(): Promise<(Date | null)[]> {
   const postfiles = await getPostsFileList();
@@ -246,7 +300,21 @@ export async function getPostsUpdateDates(): Promise<(Date | null)[]> {
 
 /**
  * posts ディレクトリ内のすべてのファイル名を取得する
+ * 
+ * @deprecated この関数は低レベル過ぎます。代わりに getAllPosts() を使用してください。
+ * getAllPosts() は Post 型のオブジェクトとして、より使いやすい形式で記事データを返します。
+ * 
  * @returns ファイル名の配列
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const files = await getPostsFileList();
+ * 
+ * // 推奨
+ * const posts = await getAllPosts();
+ * const filenames = posts.map(post => `${post.slug}.md`);
+ * ```
  */
 export async function getPostsFileList(): Promise<string[]> {
   const postfiles = await fs.promises.readdir(POST_PATH);
@@ -264,7 +332,21 @@ export async function getPostsSlug(): Promise<string[]> {
 
 /**
  * すべての記事のタイトルを取得する
+ * 
+ * @deprecated この関数は非効率的で、各記事のファイルを複数回読み込みます。
+ * 代わりに getAllPosts() を使用してください。
+ * 
  * @returns タイトルの配列
+ * 
+ * @example
+ * ```typescript
+ * // 非推奨
+ * const titles = await getPostsTitle();
+ * 
+ * // 推奨
+ * const posts = await getAllPosts();
+ * const titles = posts.map(post => post.title);
+ * ```
  */
 export async function getPostsTitle(): Promise<string[]> {
   const files = await getPostsFileList();
