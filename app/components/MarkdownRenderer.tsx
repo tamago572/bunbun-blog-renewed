@@ -69,7 +69,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       );
     },
     headinglist: () => {
-      console.log(content);
+      // console.log(content);
 
       return <HeadingList markdown={content} />;
     },
@@ -79,7 +79,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         <Image
           src={src}
           alt={props.alt || ""}
-          className="my-4 max-w-full h-auto"
+          className="my-4 max-w-full h-auto rounded-lg shadow-xl"
           width={720}
           height={480}
         />

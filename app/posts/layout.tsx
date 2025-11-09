@@ -18,7 +18,7 @@ export default function RootLayout({
           widthを変えるよりもgridレイアウトに変えるほうがいいかも
         */}
       <Header />
-      <main className="mx-auto lg:w-4/5 xl:w-2/3 2xl:w-3/5 p-8">
+      <main className="mt-6 mx-auto rounded-2xl lg:w-4/5 xl:w-2/3 2xl:w-3/5 p-8">
         {children}
       </main>
     </div>

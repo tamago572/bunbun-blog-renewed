@@ -1,10 +1,9 @@
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import {
-  getPostContent,
+  getAdjacentPosts,
+  getPost,
   getPostsSlug,
-  getPostTitle,
-  getPostUpdateDate,
 } from "@/app/utils/articleIO";
 
 interface ArticlePageProps {
@@ -15,9 +14,8 @@ interface ArticlePageProps {
 
 export default async function ArticlePage(props: ArticlePageProps) {
   const { slug } = await props.params;
-  const content = await getPostContent(`${slug}.md`);
-  const updatedDate = await getPostUpdateDate(`${slug}.md`);
-  const title = await getPostTitle(`${slug}.md`);
+  const { content, updatedDate, title } = await getPost(slug);
+  const { previous, next } = await getAdjacentPosts(slug);
 
   return (
     <>
@@ -27,6 +25,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
       </div>
       <span>最終更新日: {updatedDate?.toLocaleString()}</span>
       <MarkdownRenderer content={content} />
+
+      <h2 className="text-2xl font-bold my-4">関連記事</h2>
+      <p>前の記事: {previous ? <Link href={`/posts/${previous.slug}`}>{previous.title} - {previous.updatedDate?.toLocaleDateString()}</Link> : "記事がありません"}</p>
+      <p>次の記事: {next ? <Link href={`/posts/${next.slug}`}>{next.title} - {next.updatedDate?.toLocaleDateString()}</Link> : "記事がありません"}</p>
+
     </>
   );
 }
@@ -41,7 +44,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: ArticlePageProps) {
   const { slug } = await props.params;
-  const title = await getPostTitle(`${slug}.md`);
+  const { title } = await getPost(slug);
 
   return { title: `${title} | Bunbun Blog` };
 }
