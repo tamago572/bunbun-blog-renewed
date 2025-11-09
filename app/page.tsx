@@ -3,16 +3,12 @@ import "./styles/top.css";
 import AccessCounter from "./components/AccessCounter";
 import { NewDecoration } from "./components/decorations/New";
 import {
-  getPostsSlug,
-  getPostsTitle,
-  getPostsUpdateDates,
+  getAllPostsSortedByDate,
 } from "./utils/articleIO";
 
 export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
-  const postsTitle = await getPostsTitle();
-  const postsSlug = await getPostsSlug();
-  const postsUpdateDates = await getPostsUpdateDates();
+  const posts = await getAllPostsSortedByDate();
 
   return (
     <div className="text-black prose prose-zinc max-w-none">
@@ -34,12 +30,12 @@ export default async function Home() {
 
       <h2 className="text-left text-purple-600 text-2xl">最近の記事</h2>
       <ul className="text-left">
-        {postsTitle.map((title, index) => (
-          <li key={title}>
-            <a href={`/posts/${postsSlug[index]}`}>
-              {title} -{" "}
-              {postsUpdateDates[index]
-                ? (postsUpdateDates[index] as Date).toLocaleDateString()
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <a href={`/posts/${post.slug}`}>
+              {post.title} -{" "}
+              {post.updatedDate
+                ? (post.updatedDate as Date).toLocaleDateString()
                 : "No date"}
             </a>
             <NewDecoration />

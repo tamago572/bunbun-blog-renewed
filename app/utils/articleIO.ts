@@ -210,10 +210,10 @@ export async function getAdjacentPosts(
   }
 
   return {
-    // previous: 配列の前（インデックスが小さい）= より新しい記事
-    previous: currentIndex > 0 ? posts[currentIndex - 1] : null,
-    // next: 配列の後ろ（インデックスが大きい）= より古い記事
-    next: currentIndex + 1 < posts.length ? posts[currentIndex + 1] : null,
+    // next: 配列の前（インデックスが小さい）= より新しい記事
+    next: currentIndex > 0 ? posts[currentIndex - 1] : null,
+    // previous: 配列の後ろ（インデックスが大きい）= より古い記事
+    previous: currentIndex + 1 < posts.length ? posts[currentIndex + 1] : null,
   };
 }
 

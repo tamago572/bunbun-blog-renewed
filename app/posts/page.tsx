@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  getPostsSlug,
-  getPostsTitle,
-  getPostsUpdateDates,
+  getAllPostsSortedByDate
 } from "../utils/articleIO";
 
 export default async function PostsPage() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
-  const postsTitle = await getPostsTitle();
-  const postsSlug = await getPostsSlug();
-  const postsUpdateDates = await getPostsUpdateDates();
+  const posts = await getAllPostsSortedByDate();
 
   return (
     <>
@@ -21,12 +17,12 @@ export default async function PostsPage() {
       </div>
 
       <ul className="text-left">
-        {postsTitle.map((title, index) => (
-          <li key={title}>
-            <Link href={`/posts/${postsSlug[index]}`}>
-              {title} -{" "}
-              {postsUpdateDates[index]
-                ? (postsUpdateDates[index] as Date).toLocaleDateString()
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <Link href={`/posts/${post.slug}`}>
+              {post.title} -{" "}
+              {post.updatedDate
+                ? (post.updatedDate as Date).toLocaleDateString()
                 : "No date"}
             </Link>
           </li>

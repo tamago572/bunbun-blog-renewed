@@ -22,10 +22,11 @@ export default function RootLayout({
       <body>
         <FirebaseInit /> {/* クライアントでFirebase起動 */}
         <>{children}</>
-        <footer>
+        <footer className="shadow-lg">
           <p>
             Built date:{" "}
             {new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" })}
+            {" (JST)"}
             {shortHash && (
               <>
                 {" (commit: "}
