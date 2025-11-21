@@ -19,10 +19,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
 
   return (
     <>
-      <div className="mb-4">
+      <nav className="mb-4">
         <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
         <span>{title}</span>
-      </div>
+      </nav>
+      
       <span>最終更新日: {updatedDate?.toLocaleString()}</span>
       <MarkdownRenderer content={content} />
 
