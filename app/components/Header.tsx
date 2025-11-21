@@ -2,8 +2,8 @@ import style from "./Header.module.scss";
 
 export default function Header() {
   return (
-    <div>
-      <ul className="flex gap-4 p-4 bg-blue-200 shadow-md">
+    <header>
+      <ul className="flex gap-4 p-4 bg-stone-800 text-white shadow-md">
         <li>
           <a href="/" className={`${style.headerLink}`}>
             Bunbun Blog
@@ -15,6 +15,6 @@ export default function Header() {
           </a>
         </li>
       </ul>
-    </div>
+    </header>
   );
 }
