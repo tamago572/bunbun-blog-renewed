@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
+import TwitterShareBtn from "@/app/components/TwitterShareBtn";
 import {
   getAdjacentPosts,
   getPost,
@@ -23,7 +24,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
         <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
         <span>{title}</span>
       </nav>
-      
+
+      <div className="my-2">
+        <TwitterShareBtn url={`https://blog.bunbunapp.dev/posts/${slug}`} text={`${title} | Bunbun Blog`} />
+      </div>
+
       <span>最終更新日: {updatedDate?.toLocaleString()}</span>
       <MarkdownRenderer content={content} />
 

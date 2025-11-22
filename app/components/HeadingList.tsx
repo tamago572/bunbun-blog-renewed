@@ -15,10 +15,12 @@ const HeadingList = ({ markdown }: { markdown: string }) => {
     // console.log(text);
 
     const aTag = (
-      <a href={`#${text}`} className={styles.list_item}>
+      <a href={`#${text}`} className="hover:underline !text-stone-900">
         ➧ {text}
       </a>
     );
+
+    if (level === 1) return;
 
     if (level === 2) {
       return (
@@ -53,8 +55,8 @@ const HeadingList = ({ markdown }: { markdown: string }) => {
   });
 
   return (
-    <div className={styles.container}>
-      <h3>目次</h3>
+    <div className="bg-stone-100 p-4 rounded-lg shadow-md">
+      <p className="text-xl font-bold text-center text-stone-700">目次</p>
       <ul className={styles.heading_list}>{headingList}</ul>
     </div>
   );
