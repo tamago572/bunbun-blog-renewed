@@ -33,8 +33,8 @@ export default async function ArticlePage(props: ArticlePageProps) {
       <MarkdownRenderer content={content} />
 
       <h2 className="text-2xl font-bold my-4">関連記事</h2>
-      <p>前の記事: {previous ? <Link href={`/posts/${previous.slug}`}>{previous.title} - {previous.updatedDate?.toLocaleDateString()}</Link> : "記事がありません"}</p>
-      <p>次の記事: {next ? <Link href={`/posts/${next.slug}`}>{next.title} - {next.updatedDate?.toLocaleDateString()}</Link> : "記事がありません"}</p>
+      <p>前の記事: {previous ? <Link href={`/posts/${previous.slug}`}>{previous.title} - {previous.updatedDate?.toLocaleDateString()}</Link> : "この記事が最古の記事です！"}</p>
+      <p>次の記事: {next ? <Link href={`/posts/${next.slug}`}>{next.title} - {next.updatedDate?.toLocaleDateString()}</Link> : "この記事が最新です！"}</p>
 
     </>
   );

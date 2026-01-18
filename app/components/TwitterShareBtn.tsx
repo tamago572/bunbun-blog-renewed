@@ -7,7 +7,7 @@ export default function TwitterShareBtn({ url, text }: { url: string; text: stri
                 href={shareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-blue-500 hover:bg-blue-600 !text-white py-2 px-4 rounded"
+                className="inline-block bg-blue-400 hover:bg-blue-500 !text-white py-2 px-4 rounded transition-colors"
             >
                 Share on Twitter
             </a>

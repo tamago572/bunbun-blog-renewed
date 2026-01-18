@@ -20,7 +20,7 @@ const HeadingList = ({ markdown }: { markdown: string }) => {
       </a>
     );
 
-    if (level === 1) return;
+    if (level === 1) return null;
 
     if (level === 2) {
       return (
@@ -55,7 +55,7 @@ const HeadingList = ({ markdown }: { markdown: string }) => {
   });
 
   return (
-    <div className="bg-stone-100 p-4 rounded-lg shadow-md">
+    <div className="bg-stone-100 pt-2 rounded-lg shadow-md pb-16 my-8">
       <p className="text-xl font-bold text-center text-stone-700">目次</p>
       <ul className={styles.heading_list}>{headingList}</ul>
     </div>

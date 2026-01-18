@@ -85,6 +85,37 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         />
       );
     },
+    table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
+      <div className="my-4 overflow-x-auto">
+        <table
+          className="min-w-[600px] w-full text-sm border border-stone-300 rounded"
+          {...props}
+        >
+          {props.children}
+        </table>
+      </div>
+    ),
+    thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+      <thead className="bg-stone-100" {...props} />
+    ),
+    tbody: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+      <tbody {...props} />
+    ),
+    tr: (props: React.HTMLAttributes<HTMLTableRowElement>) => (
+      <tr className="border-b last:border-b-0 border-stone-300" {...props} />
+    ),
+    th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+      <th
+        className="px-2 py-3 text-left font-semibold border-r last:border-r-0 border-stone-300"
+        {...props}
+      />
+    ),
+    td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+      <td
+        className="px-2 py-2 align-top border-r last:border-r-0 border-stone-300"
+        {...props}
+      />
+    ),
   };
   return (
     <Markdown
