@@ -22,7 +22,7 @@ export default async function RootLayout({
       <Header />
 
       <div className="flex justify-center lg:px-4 lg:mt-6">
-        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-[1fr_700px_300px] gap-8">
+        <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-[1fr_730px_300px] gap-8">
           {/* 左余白（デスクトップのみ表示） */}
           <div className="hidden lg:block"></div>
 
