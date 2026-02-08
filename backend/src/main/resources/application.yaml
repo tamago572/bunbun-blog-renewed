@@ -3,4 +3,4 @@ ktor:
     modules:
       - dev.bunbunapp.ApplicationKt.module
   deployment:
-    port: 8080
+    port: 4545
