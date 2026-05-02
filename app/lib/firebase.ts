@@ -13,7 +13,7 @@ const firebaseConfig = {
   storageBucket: "blog-renewed.firebasestorage.app",
   messagingSenderId: "334371157185",
   appId: "1:334371157185:web:c7f2fee0492265d7a91040",
-  measurementId: "G-FNQX4GXPGG",
+  measurementId: "G-8CSW7E6C35",
 };
 
 // Initialize Firebase

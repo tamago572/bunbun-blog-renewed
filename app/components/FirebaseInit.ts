@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { analytics } from "@/app/lib/firebaseAnalytics";
+import { initializeFirebaseAnalytics } from "@/app/lib/firebaseAnalytics";
 
 export default function FirebaseInit() {
   useEffect(() => {
-    // Analyticsが使える環境なら自動で初期化済み
     console.log("FirebaseInit mounted");
+    void initializeFirebaseAnalytics();
   }, []);
 
   return null; // 画面には何も表示しない

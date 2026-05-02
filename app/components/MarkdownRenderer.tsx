@@ -3,38 +3,43 @@ import type React from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { codeToHtml } from "shiki";
+import { codeToTokens } from "shiki";
 import HeadingList from "./HeadingList";
 
 export default function MarkdownRenderer({ content }: { content: string }) {
+  const firstH2Index = content.search(/\r?\n##\s+/);
+  const hasToc = firstH2Index !== -1;
+  const markdownBeforeToc = hasToc ? content.slice(0, firstH2Index) : content;
+  const markdownAfterToc = hasToc ? content.slice(firstH2Index + 1) : "";
+
   const MDComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="text-3xl font-bold my-4" id={props.children?.toString()}>
+      <h1 className="text-3xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h1>
     ),
     h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="text-2xl font-bold my-4" id={props.children?.toString()}>
+      <h2 className="text-2xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h2>
     ),
     h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h3 className="text-xl font-bold my-4" id={props.children?.toString()}>
+      <h3 className="text-xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h3>
     ),
     h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h4 className="text-lg font-bold my-4" id={props.children?.toString()}>
+      <h4 className="text-lg font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h4>
     ),
     h5: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h5 className="text-base font-bold my-4" id={props.children?.toString()}>
+      <h5 className="text-base font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h5>
     ),
     h6: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h6 className="text-sm font-bold my-4" id={props.children?.toString()}>
+      <h6 className="text-sm font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
         {props.children}
       </h6>
     ),
@@ -56,22 +61,42 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       <li className="my-1">{props.children}</li>
     ),
     code: async (props: React.HTMLAttributes<HTMLElement>) => {
-      const html = await codeToHtml(props.children?.toString() || "", {
-        lang: props.className?.replace("language-", "") || "txt",
+      const result = await codeToTokens(props.children?.toString() || "", {
+        lang: (props.className?.replace("language-", "") || "txt") as unknown as Parameters<typeof codeToTokens>[1]["lang"],
         theme: "one-dark-pro",
       });
-      return (
-        <div
-          dangerouslySetInnerHTML={{ __html: html }}
-          className="overflow-x-auto"
-          style={{ backgroundColor: "#282c34" }}
-        />
-      );
-    },
-    headinglist: () => {
-      // console.log(content);
 
-      return <HeadingList markdown={content} />;
+      const lineKeyCounts = new Map<string, number>();
+      const codeLines = result.tokens.reduce<React.ReactNode[]>((lines, line) => {
+        const serialized = line.map((token) => `${token.offset}:${token.content}`).join("|") || "blank";
+        const count = lineKeyCounts.get(serialized) ?? 0;
+        lineKeyCounts.set(serialized, count + 1);
+        const lineKey = count === 0 ? serialized : `${serialized}-${count}`;
+
+        lines.push(
+          <span key={lineKey} className="block whitespace-pre">
+            {line.map((token) => (
+              <span
+                key={`${token.offset}:${token.content}`}
+                style={{
+                  color: token.color,
+                  fontStyle: token.fontStyle === 1 ? "italic" : "normal",
+                }}
+              >
+                {token.content}
+              </span>
+            ))}
+          </span>,
+        );
+
+        return lines;
+      }, []);
+
+      return (
+        <pre className="shiki overflow-x-auto rounded" style={{ backgroundColor: result.bg }}>
+          <code>{codeLines}</code>
+        </pre>
+      );
     },
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
       const src = typeof props.src === "string" ? props.src : "/demo.webp";
@@ -79,6 +104,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
         <Image
           src={src}
           alt={props.alt || ""}
+          loading="eager"
           className="my-4 max-w-full h-auto rounded-lg shadow-xl"
           width={720}
           height={480}
@@ -88,7 +114,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
     table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
       <div className="my-4 overflow-x-auto">
         <table
-          className="min-w-[600px] w-full text-sm border border-stone-300 rounded"
+          className="min-w-150 w-full text-sm border border-stone-300 rounded"
           {...props}
         >
           {props.children}
@@ -118,12 +144,18 @@ export default function MarkdownRenderer({ content }: { content: string }) {
     ),
   };
   return (
-    <Markdown
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw]}
-      components={MDComponents}
-    >
-      {content}
-    </Markdown>
+    <>
+      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={MDComponents}>
+        {markdownBeforeToc}
+      </Markdown>
+
+      {hasToc ? <HeadingList markdown={content} /> : null}
+
+      {hasToc ? (
+        <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={MDComponents}>
+          {markdownAfterToc}
+        </Markdown>
+      ) : null}
+    </>
   );
 }
