@@ -48,7 +48,7 @@ options: {}
 
 ## 解決策
 
-```TypeScript
+```typescript
 const db = getFirestore(app, process.env.FIREBASE_DB_ID || "default"); // 第二引数にdbのIDを記述する。
 ```
 
