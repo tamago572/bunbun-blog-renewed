@@ -2,9 +2,6 @@
 
 Google Playの抽選に当選し、1年間使用したXiaomi 14T ProからGalaxy S25へ乗り換えることができたので、OSやハードウェアの使用感やゲーム性能の変化についての感想を書いていきます。
 
-<!-- 目次 -->
-<div><HeadingList></HeadingList></div>
-
 ## スペック面での変化
 
 | 主要仕様 | Samsung Galaxy S25 | Xiaomi 14T Pro |
