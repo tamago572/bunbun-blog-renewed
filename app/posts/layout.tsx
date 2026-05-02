@@ -1,8 +1,11 @@
 import { Noto_Sans_JP } from "next/font/google";
 import Header from "../components/Header";
 import "@/app/styles/main.css";
+import Image from "next/image";
 import Link from "next/link";
+import { FaSquareBluesky, FaSquareGithub, FaSquareTwitter, FaYoutube } from "react-icons/fa6";
 import { getAllPostsSortedByDate, type Post } from "../utils/articleIO";
+
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -50,7 +53,61 @@ export default async function RootLayout({
 
             <section className="my-8">
               <h2>プロフィール</h2>
-              <p>Bunbun Blogの管理人、Bunbunです。プログラミングやガジェットに関する情報を発信しています。</p>
+              <div className="text-center">
+                <Image
+                  src="/bunbun.webp"
+                  alt="Bunbun"
+                  width={100}
+                  height={100}
+                  className="rounded-full mx-auto mt-4 shadow-md"
+                />
+                <span className="text-lg font-medium">Bunbun</span>
+                <div className="flex justify-center gap-4 mt-2">
+                  <span>
+                    <a
+                      href="https://x.com/potetosa8101911"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaSquareTwitter size={48} color="#313030" />
+                    </a>
+                  </span>
+
+                  <span>
+                    <a
+                      href="https://www.youtube.com/@gamecenterbunbun"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaYoutube size={48} color="#313030" />
+                    </a>
+                  </span>
+
+                  <span>
+                    <a
+                      href="https://github.com/tamago572"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaSquareGithub size={48} color="#313030" />
+                    </a>
+                  </span>
+
+                  <span>
+                    <a
+                      href="https://bsky.app/profile/bunbunapp.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaSquareBluesky size={48} color="#313030" />
+                    </a>
+                  </span>
+                </div>
+                <p>
+                  Bunbun
+                  Blogの管理人、Bunbunです。ソフトウェア開発・動画編集・アニメ鑑賞が趣味です。プログラミングやガジェットに関する情報を発信しています。
+                </p>
+              </div>
             </section>
           </aside>
         </div>
