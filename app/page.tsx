@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getAllPostsSortedByDate } from "./utils/articleIO";
 
 export default async function Home() {
@@ -12,27 +13,24 @@ export default async function Home() {
       <h2 className="text-2xl font-bold mb-4">Latest Articles</h2>
       <ul>
         {latestPosts.map((post) => (
-          <div
-            key={post.slug}
-            className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
-          >
-            <a
-              href={`/posts/${post.slug}`}
-              className="text-lg font-semibold !text-black"
+          <Link href={`/posts/${post.slug}`} key={post.slug}>
+            <div
+              key={post.slug}
+              className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
             >
-              {post.title}
-            </a>
-            <p className="text-sm text-gray-600">
-              {post.created_at
-                ? post.created_at.toLocaleDateString()
-                : "No date"}{" "}
-              作成 /{" "}
-              {post.updatedDate
-                ? post.updatedDate.toLocaleDateString()
-                : "No date"}{" "}
-              更新
-            </p>
-          </div>
+              <span className="text-black text-xl font-bold">{post.title}</span>
+              <p className="text-sm text-gray-600">
+                {post.created_at
+                  ? post.created_at.toLocaleDateString()
+                  : "No date"}{" "}
+                作成 ・{" "}
+                {post.updatedDate
+                  ? post.updatedDate.toLocaleDateString()
+                  : "No date"}{" "}
+                更新
+              </p>
+            </div>
+          </Link>
         ))}
       </ul>
 

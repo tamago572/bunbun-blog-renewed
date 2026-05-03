@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://blog.bunbunapp.dev/sitemap.xml
+
+# Crawl-delay is optional; uncomment if needed
+# Crawl-delay: 10

@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import TwitterShareBtn from "@/app/components/TwitterShareBtn";
 import { getAdjacentPosts, getPost, getPostsSlug } from "@/app/utils/articleIO";
+
+const SITE_URL = "https://blog.bunbunapp.dev";
 
 interface ArticlePageProps {
   params: {
@@ -36,6 +39,28 @@ export default async function ArticlePage(props: ArticlePageProps) {
 
       <MarkdownRenderer content={content} />
 
+      {/* JSON-LD for Article */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: typeof title === "string" ? title : undefined,
+            description: extractDescriptionFromContent(content),
+            author: { "@type": "Person", name: "Bunbun" },
+            publisher: {
+              "@type": "Organization",
+              name: "Bunbun Blog",
+              logo: { "@type": "ImageObject", url: `${SITE_URL}/bunbun.webp` },
+            },
+            datePublished: created_at ? created_at.toISOString() : undefined,
+            dateModified: updatedDate ? updatedDate.toISOString() : undefined,
+            mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/posts/${props.params.slug}` },
+          }),
+        }}
+      />
+
       <h2 className="text-2xl font-bold my-4">関連記事</h2>
       <p>
         前の記事:{" "}
@@ -69,9 +94,35 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(props: ArticlePageProps) {
-  const { slug } = await props.params;
-  const { title } = await getPost(slug);
+function extractDescriptionFromContent(content: string): string {
+  // シンプルに最初の段落を取り、マークダウン記法を削除して短くする
+  const withoutHeadings = content.replace(/(^|\n)#+ .*/g, "");
+  const paragraphs = withoutHeadings.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const first = paragraphs.length ? paragraphs[0] : "";
+  const cleaned = first.replace(/!\[.*?\]\(.*?\)/g, "").replace(/\[(.*?)\]\(.*?\)/g, "$1").replace(/[`*_>~#-]/g, "");
+  return cleaned.length > 150 ? `${cleaned.slice(0, 147)}...` : cleaned;
+}
 
-  return { title: `${title} | Bunbun Blog` };
+export async function generateMetadata(props: ArticlePageProps): Promise<Metadata> {
+  const { slug } = await props.params;
+  const { title, content, created_at, updatedDate } = await getPost(slug);
+
+  const description = extractDescriptionFromContent(content) || "Bunbun Blog の記事です。";
+  const url = `${SITE_URL}/posts/${slug}`;
+
+  return {
+    title: `${title} | Bunbun Blog`,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${title} | Bunbun Blog`,
+      description,
+      url,
+      siteName: "Bunbun Blog",
+      type: "article",
+      images: [`${SITE_URL}/bunbun.webp`],
+    },
+  };
 }
