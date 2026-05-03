@@ -1,3 +1,6 @@
+---
+tags: ["Mac", "ゲーム"]
+---
 # M1/M2 Macでブルアカを動かす方法（PlayCover）と注意点とは
 
 ![thumbnail](/blue-archive-mac/playcover_blac.webp)

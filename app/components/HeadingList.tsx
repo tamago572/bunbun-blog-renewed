@@ -30,7 +30,7 @@ const HeadingList = ({ markdown }: { markdown: string }) => {
     const key = `${level}-${hashHeading(text)}`;
 
     const aTag = (
-      <a href={`#${headingId}`} className="hover:underline text-stone-900">
+      <a href={`#${headingId}`} className="hover:underline !text-stone-900">
         ➧ {text}
       </a>
     );

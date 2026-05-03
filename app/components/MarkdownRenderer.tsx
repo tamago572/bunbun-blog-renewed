@@ -79,9 +79,10 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       <li className="my-1">{props.children}</li>
     ),
     code: async (props: React.HTMLAttributes<HTMLElement>) => {
+      const rawLang = props.className?.replace("language-", "") || "txt";
+      const lang = rawLang === "text" ? "txt" : rawLang;
       const result = await codeToTokens(props.children?.toString() || "", {
-        lang: (props.className?.replace("language-", "") ||
-          "txt") as unknown as Parameters<typeof codeToTokens>[1]["lang"],
+        lang: lang as unknown as Parameters<typeof codeToTokens>[1]["lang"],
         theme: "one-dark-pro",
       });
 
@@ -119,7 +120,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
       return (
         <pre
           className="shiki overflow-x-auto rounded"
-          style={{ backgroundColor: result.bg }}
+          style={{ backgroundColor: result.bg, color: result.fg }}
         >
           <code>{codeLines}</code>
         </pre>
