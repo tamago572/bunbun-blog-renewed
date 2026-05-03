@@ -171,7 +171,7 @@ export async function getAllPosts(): Promise<Post[]> {
  * });
  * ```
  */
-export async function getAllPostsSortedByDate(): Promise<Post[]> {
+export async function getAllPostsSortedByUpdatedDate(): Promise<Post[]> {
   const posts = await getAllPosts();
 
   posts.sort((a, b) => {
@@ -183,6 +183,27 @@ export async function getAllPostsSortedByDate(): Promise<Post[]> {
 
   return posts;
 }
+
+/**
+ * すべての記事データを作成日時順（降順：新しい順）にソートして取得する
+ * ブログのトップページや記事一覧ページでの使用を想定
+ *
+ * @returns 作成日時順にソートされた記事データの配列（新しい記事が先頭）
+ */
+export async function getAllPostsSortedByCreatedDate(): Promise<Post[]> {
+  const posts = await getAllPosts();
+
+  posts.sort((a, b) => {
+    if (!a.created_at && !b.created_at) return 0;
+    if (!a.created_at) return 1;
+    if (!b.created_at) return -1;
+    return b.created_at.getTime() - a.created_at.getTime();
+  });
+
+  return posts;
+}
+
+
 
 /**
  * 指定された記事の前後の記事を取得する（推奨）
@@ -209,7 +230,7 @@ export async function getAdjacentPosts(currentSlug: string): Promise<{
   previous: Post | null;
   next: Post | null;
 }> {
-  const posts = await getAllPostsSortedByDate();
+  const posts = await getAllPostsSortedByCreatedDate();
   const currentIndex = posts.findIndex((post) => post.slug === currentSlug);
 
   if (currentIndex === -1) {

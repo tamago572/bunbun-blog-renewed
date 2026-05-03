@@ -12,7 +12,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 import FirebaseInit from "./components/FirebaseInit";
-import { getAllPostsSortedByDate, type Post } from "./utils/articleIO";
+import { getAllPostsSortedByUpdatedDate, type Post } from "./utils/articleIO";
 
 export const metadata: Metadata = {
   title: "Bunbun Blog",
@@ -40,7 +40,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const recentPosts: Post[] = [...(await getAllPostsSortedByDate())];
+  const recentPosts: Post[] = [...(await getAllPostsSortedByUpdatedDate())];
 
   const repoUrl = "https://github.com/tamago572/bunbun-blog-renewed";
   const commitHash = process.env.NEXT_PUBLIC_COMMIT_HASH || "unknown";

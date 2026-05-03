@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPostsSortedByDate } from "./utils/articleIO";
+import { getAllPostsSortedByUpdatedDate } from "./utils/articleIO";
 
 export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
-  const posts = await getAllPostsSortedByDate();
+  const posts = await getAllPostsSortedByUpdatedDate();
   const _featuredPosts = posts.slice(0, 3); // 最新の3記事をFeaturedとして表示
   const latestPosts = posts.slice(0, 5); // 最新の5記事を表示
 

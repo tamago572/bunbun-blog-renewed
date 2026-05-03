@@ -1,12 +1,12 @@
 export const dynamic = "force-static";
 
 import type { MetadataRoute } from "next";
-import { getAllPostsSortedByDate } from "./utils/articleIO";
+import { getAllPostsSortedByUpdatedDate } from "./utils/articleIO";
 
 const SITE_URL = "https://blog.bunbunapp.dev";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const allPosts = await getAllPostsSortedByDate();
+  const allPosts = await getAllPostsSortedByUpdatedDate();
 
   return [
     {
