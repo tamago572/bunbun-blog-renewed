@@ -10,11 +10,11 @@ export default async function PostsPage() {
 
   return (
     <>
-      <div className="mb-4">
+      <nav className="mb-4">
         <span>
           <a href="/">ホーム</a> &gt; 記事一覧
         </span>
-      </div>
+      </nav>
 
       <ul className="text-left">
         {posts.map((post) => (
