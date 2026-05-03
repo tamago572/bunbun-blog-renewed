@@ -29,6 +29,21 @@ export default async function Home() {
                   : "No date"}{" "}
                 更新
               </p>
+
+              <div className="my-2 flex gap-2">
+                {post.matterData.tags && post.matterData.tags.length > 0 ? (
+                  post.matterData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-gray-700 text-white px-2 py-1 rounded-2xl"
+                    >
+                      #{tag}
+                    </span>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </Link>
         ))}

@@ -1,4 +1,3 @@
-import matter from "gray-matter";
 import type { Metadata } from "next";
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
@@ -36,6 +35,16 @@ export default async function ArticlePage(props: ArticlePageProps) {
         <span>作成日: {created_at?.toLocaleDateString()}</span>
         <span className="mx-2">/</span>
         <span>最終更新日: {updatedDate?.toLocaleString()}</span>
+      </div>
+
+      <div className="my-2 flex gap-2">
+        {matterData.tags && matterData.tags.length > 0 ? (
+          matterData.tags.map((tag) => (
+            <span key={tag} className="bg-gray-700 text-white px-2 py-1 rounded-2xl">
+              #{tag}
+            </span>
+          ))
+        ): (<></>)}
       </div>
 
       <MarkdownRenderer content={content} />
