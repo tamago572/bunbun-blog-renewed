@@ -1,63 +1,68 @@
 import type { Metadata } from "next";
-import "./styles/top.css";
-import AccessCounter from "./components/AccessCounter";
-import { NewDecoration } from "./components/decorations/New";
-import {
-  getAllPostsSortedByDate,
-} from "./utils/articleIO";
+import { getAllPostsSortedByDate } from "./utils/articleIO";
 
 export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
   const posts = await getAllPostsSortedByDate();
+  const _featuredPosts = posts.slice(0, 3); // 最新の3記事をFeaturedとして表示
+  const latestPosts = posts.slice(0, 5); // 最新の5記事を表示
 
   return (
-    <div className="text-black prose prose-zinc max-w-none">
-      <h1 className="text-blue-700 text-4xl">
-        *＊*＊*Welcome to Bunbun's Homepage!*＊*＊*
-      </h1>
-      <div className="marquee text-red-600">
-        *＊*＊*＊*＊*＊*＊ぶんぶんのホームページへようこそ！*＊*＊*＊*＊*＊
-      </div>
-      <p>昔のホームページかと思うかもしれませんが、</p>
-      <p>HTML5, Next.js, React, Firebaseで作られています。(*´艸｀*)</p>
-      <p>PCやスマホ、プログラミングの技術系ブログを投稿をします。</p>
-
-      <h2 className="accessCounter text-2xl">
-        <AccessCounter />
-      </h2>
-
-      <hr />
-
-      <h2 className="text-left text-purple-600 text-2xl">最近の記事</h2>
-      <ul className="text-left">
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <a href={`/posts/${post.slug}`}>
-              {post.title} -{" "}
-              {post.updatedDate
-                ? (post.updatedDate as Date).toLocaleDateString()
-                : "No date"}
+    <>
+      <h2 className="text-2xl font-bold mb-4">Latest Articles</h2>
+      <ul>
+        {latestPosts.map((post) => (
+          <div
+            key={post.slug}
+            className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+          >
+            <a
+              href={`/posts/${post.slug}`}
+              className="text-lg font-semibold !text-black"
+            >
+              {post.title}
             </a>
-            <NewDecoration />
-          </li>
+            <p className="text-sm text-gray-600">
+              {post.created_at
+                ? post.created_at.toLocaleDateString()
+                : "No date"}{" "}
+              作成 /{" "}
+              {post.updatedDate
+                ? post.updatedDate.toLocaleDateString()
+                : "No date"}{" "}
+              更新
+            </p>
+          </div>
         ))}
       </ul>
 
-      <span>[1]</span>
-      <span>[&gt;]</span>
-      <a href="/posts">記事一覧へ</a>
-
-      <h2 className="text-2xl">リンク</h2>
-      <ul className="text-left list-item">
-        <li>
-          <a href="https://github.com/tamago572">GitHub</a>
-        </li>
-        <li>
-          <a href="https://twitter.com/potetosa8101911">Twitter</a>
-        </li>
-      </ul>
-      <hr />
-    </div>
+      {/* <h2 className="text-2xl font-bold mb-4">Featured</h2>
+      <ul>
+        {featuredPosts.map((post) => (
+          <div
+            key={post.slug}
+            className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+          >
+            <a
+              href={`/posts/${post.slug}`}
+              className="text-lg font-semibold !text-black"
+            >
+              {post.title}
+            </a>
+            <p className="text-sm text-gray-600">
+              {post.created_at
+                ? post.created_at.toLocaleDateString()
+                : "No date"}{" "}
+              作成 /{" "}
+              {post.updatedDate
+                ? post.updatedDate.toLocaleDateString()
+                : "No date"}{" "}
+              更新
+            </p>
+          </div>
+        ))}
+      </ul> */}
+    </>
   );
 }
 

@@ -48,8 +48,8 @@ export default async function ArticlePage(props: ArticlePageProps) {
       <div className="p-8">
         {/* パンくずリスト */}
         <nav className="text-sm mb-4">
-          <Link href="/">ホーム</Link> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
-          <span>{post.title}</span>
+          <Link href="/">ホーム</Link> &gt; <Link href="/posts">記事一覧</Link>{" "}
+          &gt; <span>{post.title}</span>
         </nav>
 
         {/* 更新日 */}
@@ -64,14 +64,20 @@ export default async function ArticlePage(props: ArticlePageProps) {
         <nav className="mt-8 pt-4 border-t flex justify-between">
           <div>
             {previous && (
-              <Link href={`/posts/${previous.slug}`} className="text-blue-600 hover:underline">
+              <Link
+                href={`/posts/${previous.slug}`}
+                className="text-blue-600 hover:underline"
+              >
                 ← 前の記事: {previous.title}
               </Link>
             )}
           </div>
           <div>
             {next && (
-              <Link href={`/posts/${next.slug}`} className="text-blue-600 hover:underline">
+              <Link
+                href={`/posts/${next.slug}`}
+                className="text-blue-600 hover:underline"
+              >
                 次の記事: {next.title} →
               </Link>
             )}

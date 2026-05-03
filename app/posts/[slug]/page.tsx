@@ -1,11 +1,7 @@
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import TwitterShareBtn from "@/app/components/TwitterShareBtn";
-import {
-  getAdjacentPosts,
-  getPost,
-  getPostsSlug,
-} from "@/app/utils/articleIO";
+import { getAdjacentPosts, getPost, getPostsSlug } from "@/app/utils/articleIO";
 
 interface ArticlePageProps {
   params: {
@@ -15,7 +11,7 @@ interface ArticlePageProps {
 
 export default async function ArticlePage(props: ArticlePageProps) {
   const { slug } = await props.params;
-  const { content, updatedDate, title } = await getPost(slug);
+  const { content, updatedDate, created_at, title } = await getPost(slug);
   const { previous, next } = await getAdjacentPosts(slug);
 
   return (
@@ -26,16 +22,41 @@ export default async function ArticlePage(props: ArticlePageProps) {
       </nav>
 
       <div className="my-2">
-        <TwitterShareBtn url={`https://blog.bunbunapp.dev/posts/${slug}`} text={`${title} | Bunbun Blog`} />
+        <TwitterShareBtn
+          url={`https://blog.bunbunapp.dev/posts/${slug}`}
+          text={`${title} | Bunbun Blog`}
+        />
       </div>
 
-      <span>最終更新日: {updatedDate?.toLocaleString()}</span>
+      <div className="text-gray-600 text-sm mb-4">
+        <span>作成日: {created_at?.toLocaleDateString()}</span>
+        <span className="mx-2">/</span>
+        <span>最終更新日: {updatedDate?.toLocaleString()}</span>
+      </div>
+
       <MarkdownRenderer content={content} />
 
       <h2 className="text-2xl font-bold my-4">関連記事</h2>
-      <p>前の記事: {previous ? <Link href={`/posts/${previous.slug}`}>{previous.title} - {previous.updatedDate?.toLocaleDateString()}</Link> : "この記事が最古の記事です！"}</p>
-      <p>次の記事: {next ? <Link href={`/posts/${next.slug}`}>{next.title} - {next.updatedDate?.toLocaleDateString()}</Link> : "この記事が最新です！"}</p>
-
+      <p>
+        前の記事:{" "}
+        {previous ? (
+          <Link href={`/posts/${previous.slug}`}>
+            {previous.title} - {previous.updatedDate?.toLocaleDateString()}
+          </Link>
+        ) : (
+          "この記事が最古の記事です！"
+        )}
+      </p>
+      <p>
+        次の記事:{" "}
+        {next ? (
+          <Link href={`/posts/${next.slug}`}>
+            {next.title} - {next.updatedDate?.toLocaleDateString()}
+          </Link>
+        ) : (
+          "この記事が最新です！"
+        )}
+      </p>
     </>
   );
 }
