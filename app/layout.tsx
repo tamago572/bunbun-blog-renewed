@@ -23,6 +23,10 @@ export default async function RootLayout({
   const recentPosts: Post[] = [
     ...await getAllPostsSortedByDate(),
   ]
+
+  const repoUrl = "https://github.com/tamago572/bunbun-blog-renewed";
+  const commitHash = process.env.NEXT_PUBLIC_COMMIT_HASH || "unknown";
+
   return (
     <html lang="ja">
       <body>
@@ -120,6 +124,51 @@ export default async function RootLayout({
             </div>
           </div>
         </div>
+
+        <footer className="bg-white p-4 rounded-lg shadow-xl mt-10">
+          <div className="mb-8">
+            <h2 className="text-center text-gray-500 text-sm mb-2 !border-l-0 !border-b-0 !px-0">
+              Site Links
+            </h2>
+            <div className="flex justify-center gap-4">
+              <a href="/" className="!text-gray-500 hover:underline">
+                Home
+              </a>
+              <a href="/posts" className="!text-gray-500 hover:underline">
+                Posts
+              </a>
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="!text-gray-500 hover:underline"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+
+          <p className="text-center text-gray-500 !my-2">
+            &copy; {new Date().getFullYear()} Bunbun Blog. All rights reserved.
+          </p>
+
+          <p className="text-center text-gray-500 !my-2">
+            Built Date: {new Date().toString()}
+          </p>
+
+          <p className="text-center text-gray-500 !my-2">
+            CommitHash:
+            <a
+              href={`${repoUrl}/commit/${commitHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="!text-gray-500"
+            >
+              {" "}
+              {process.env.NEXT_PUBLIC_COMMIT_HASH}
+            </a>
+          </p>
+        </footer>
       </body>
     </html>
   );
