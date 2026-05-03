@@ -1,3 +1,4 @@
+import matter from "gray-matter";
 import type { Metadata } from "next";
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
@@ -14,7 +15,7 @@ interface ArticlePageProps {
 
 export default async function ArticlePage(props: ArticlePageProps) {
   const { slug } = await props.params;
-  const { content, updatedDate, created_at, title } = await getPost(slug);
+  const { content, updatedDate, created_at, title, matterData } = await getPost(slug);
   const { previous, next } = await getAdjacentPosts(slug);
 
   return (
@@ -56,7 +57,7 @@ export default async function ArticlePage(props: ArticlePageProps) {
             },
             datePublished: created_at ? created_at.toISOString() : undefined,
             dateModified: updatedDate ? updatedDate.toISOString() : undefined,
-            mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/posts/${props.params.slug}` },
+            mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/posts/${slug}` },
           }),
         }}
       />

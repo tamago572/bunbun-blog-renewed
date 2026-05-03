@@ -1,6 +1,7 @@
 import { exec } from "node:child_process";
 import fs from "node:fs";
 import { promisify } from "node:util";
+import matter from "gray-matter";
 
 // execを async/await で使えるように変換
 const execAsync = promisify(exec);
@@ -21,7 +22,12 @@ export type Post = {
   slug: string;
   updatedDate: Date | null;
   created_at: Date | null;
+  matterData: PostMatterData;
 };
+
+export type PostMatterData = {
+  tags?: string[];
+}
 
 /**
  * Markdownコンテンツから最初の見出し1（# タイトル）を抽出する
@@ -57,8 +63,10 @@ export async function getPost(slug: string): Promise<Post> {
   const filename = `${slug}.md`;
   const filePath = `${POST_PATH}/${filename}`;
 
-  const content = await fs.promises.readFile(filePath, "utf-8");
-  const title = extractTitleFromContent(content);
+  const integratedContent = await fs.promises.readFile(filePath, "utf-8");
+  const title = extractTitleFromContent(integratedContent);
+
+  const { data: matterData, content } = matter(integratedContent);
 
   let updatedDate: Date | null = null;
   let created_at: Date | null = null;
@@ -117,6 +125,7 @@ export async function getPost(slug: string): Promise<Post> {
     slug,
     updatedDate,
     created_at,
+    matterData
   };
 }
 
