@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import "@/app/styles/globals.css";
 import { Noto_Sans_JP } from "next/font/google";
 import Header from "./components/Header";
@@ -12,6 +13,22 @@ import {
 } from "react-icons/fa6";
 import FirebaseInit from "./components/FirebaseInit";
 import { getAllPostsSortedByDate, type Post } from "./utils/articleIO";
+
+export const metadata: Metadata = {
+  title: "Bunbun Blog",
+  description: "PCやスマホ、プログラミングの技術系ブログを投稿します。",
+  alternates: {
+    canonical: "https://blog.bunbunapp.dev",
+  },
+  openGraph: {
+    title: "Bunbun Blog",
+    description: "PCやスマホ、プログラミングの技術系ブログを投稿します。",
+    url: "https://blog.bunbunapp.dev",
+    siteName: "Bunbun Blog",
+    images: ["https://blog.bunbunapp.dev/bunbun.webp"],
+    locale: "ja_JP",
+  },
+};
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
