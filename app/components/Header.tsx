@@ -13,14 +13,14 @@ export default function Header() {
       </div>
       <ul className="flex gap-4 p-4 bg-stone-800 text-white shadow-md">
         <li>
-          <a href="/" className={`${style.headerItem}`}>
+          <Link href="/" className={`${style.headerItem}`}>
             Bunbun Blog
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/posts" className={`${style.headerItem}`}>
+          <Link href="/posts" className={`${style.headerItem}`}>
             Posts
-          </a>
+          </Link>
         </li>
       </ul>
     </header>

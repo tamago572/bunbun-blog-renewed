@@ -20,7 +20,7 @@ export default async function ArticlePage(props: ArticlePageProps) {
   return (
     <>
       <nav className="mb-4">
-        <a href="/">ホーム</a> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
+        <Link href="/">ホーム</Link> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
         <span>{title}</span>
       </nav>
 

@@ -97,6 +97,7 @@ export default async function RootLayout({
                           href="https://x.com/potetosa8101911"
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label="Twitterへ遷移"
                         >
                           <FaSquareTwitter size={48} color="#313030" />
                         </a>
@@ -107,6 +108,7 @@ export default async function RootLayout({
                           href="https://www.youtube.com/@gamecenterbunbun"
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label="YouTubeへ遷移"
                         >
                           <FaYoutube size={48} color="#313030" />
                         </a>
@@ -117,6 +119,7 @@ export default async function RootLayout({
                           href="https://github.com/tamago572"
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label="GitHubへ遷移"
                         >
                           <FaSquareGithub size={48} color="#313030" />
                         </a>
@@ -127,6 +130,7 @@ export default async function RootLayout({
                           href="https://bsky.app/profile/bunbunapp.dev"
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label="Blueskyへ遷移"
                         >
                           <FaSquareBluesky size={48} color="#313030" />
                         </a>
@@ -149,12 +153,12 @@ export default async function RootLayout({
               Site Links
             </h2>
             <div className="flex justify-center gap-4">
-              <a href="/" className="!text-gray-500 hover:underline">
+              <Link href="/" className="!text-gray-500 hover:underline">
                 Home
-              </a>
-              <a href="/posts" className="!text-gray-500 hover:underline">
+              </Link>
+              <Link href="/posts" className="!text-gray-500 hover:underline">
                 Posts
-              </a>
+              </Link>
               <a
                 href={repoUrl}
                 target="_blank"
