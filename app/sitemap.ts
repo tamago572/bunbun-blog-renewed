@@ -1,13 +1,12 @@
 export const dynamic = "force-static";
 
 import type { MetadataRoute } from "next";
-import { getPostsSlug, getPostsUpdateDates } from "./utils/articleIO";
+import { getAllPostsSortedByDate } from "./utils/articleIO";
 
 const SITE_URL = "https://blog.bunbunapp.dev";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const postsSlug = await getPostsSlug();
-  const postsUpdateDates = await getPostsUpdateDates();
+  const allPosts = await getAllPostsSortedByDate();
 
   return [
     {
@@ -22,11 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.8,
     },
-    ...postsSlug.map((slug, index) => ({
-      url: `${SITE_URL}/posts/${slug}`,
-      lastModified: postsUpdateDates[index]
-        ? (postsUpdateDates[index] as Date)
-        : new Date(),
+    ...allPosts.map((post) => ({
+      url: `${SITE_URL}/posts/${post.slug}`,
+      lastModified: post.updatedDate ?? new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.5,
     })),
