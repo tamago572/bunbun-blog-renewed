@@ -1,10 +1,10 @@
-import Image from "next/image";
 import type React from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { codeToTokens } from "shiki";
 import HeadingList from "./HeadingList";
+import MarkdownImageViewer from "./MarkdownImageViewer";
 
 export default function MarkdownRenderer({ content }: { content: string }) {
   const firstH2Index = content.search(/\r?\n##\s+/);
@@ -128,16 +128,7 @@ export default function MarkdownRenderer({ content }: { content: string }) {
     },
     img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
       const src = typeof props.src === "string" ? props.src : "/demo.webp";
-      return (
-        <Image
-          src={src}
-          alt={props.alt || ""}
-          loading="eager"
-          className="my-4 max-w-full h-auto rounded-lg shadow-xl"
-          width={720}
-          height={480}
-        />
-      );
+      return <MarkdownImageViewer src={src} alt={props.alt || ""} />;
     },
     table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
       <div className="my-4 overflow-x-auto">
