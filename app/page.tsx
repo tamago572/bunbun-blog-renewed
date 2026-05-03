@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import {
-  getAllPostsSortedByDate,
-} from "./utils/articleIO";
+import { getAllPostsSortedByDate } from "./utils/articleIO";
 
 export default async function Home() {
   // mdファイルが格納されているディレクトリを取得し、slugのみ返す
   const posts = await getAllPostsSortedByDate();
-  const featuredPosts = posts.slice(0, 3); // 最新の3記事をFeaturedとして表示
+  const _featuredPosts = posts.slice(0, 3); // 最新の3記事をFeaturedとして表示
   const latestPosts = posts.slice(0, 5); // 最新の5記事を表示
 
   return (
@@ -25,8 +23,12 @@ export default async function Home() {
               {post.title}
             </a>
             <p className="text-sm text-gray-600">
+              {post.created_at
+                ? post.created_at.toLocaleDateString()
+                : "No date"}{" "}
+              作成 /{" "}
               {post.updatedDate
-                ? (post.updatedDate as Date).toLocaleDateString()
+                ? post.updatedDate.toLocaleDateString()
                 : "No date"}{" "}
               更新
             </p>
@@ -48,8 +50,12 @@ export default async function Home() {
               {post.title}
             </a>
             <p className="text-sm text-gray-600">
+              {post.created_at
+                ? post.created_at.toLocaleDateString()
+                : "No date"}{" "}
+              作成 /{" "}
               {post.updatedDate
-                ? (post.updatedDate as Date).toLocaleDateString()
+                ? post.updatedDate.toLocaleDateString()
                 : "No date"}{" "}
               更新
             </p>

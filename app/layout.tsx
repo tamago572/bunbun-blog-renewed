@@ -4,11 +4,14 @@ import Header from "./components/Header";
 import "@/app/styles/main.css";
 import Image from "next/image";
 import Link from "next/link";
-import { FaSquareBluesky, FaSquareGithub, FaSquareTwitter, FaYoutube } from "react-icons/fa6";
+import {
+  FaSquareBluesky,
+  FaSquareGithub,
+  FaSquareTwitter,
+  FaYoutube,
+} from "react-icons/fa6";
 import FirebaseInit from "./components/FirebaseInit";
 import { getAllPostsSortedByDate, type Post } from "./utils/articleIO";
-
-
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -20,9 +23,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const recentPosts: Post[] = [
-    ...await getAllPostsSortedByDate(),
-  ]
+  const recentPosts: Post[] = [...(await getAllPostsSortedByDate())];
 
   const repoUrl = "https://github.com/tamago572/bunbun-blog-renewed";
   const commitHash = process.env.NEXT_PUBLIC_COMMIT_HASH || "unknown";

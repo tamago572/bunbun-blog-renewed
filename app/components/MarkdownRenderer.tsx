@@ -14,32 +14,50 @@ export default function MarkdownRenderer({ content }: { content: string }) {
 
   const MDComponents = {
     h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h1 className="text-3xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h1
+        className="text-3xl font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h1>
     ),
     h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h2 className="text-2xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h2
+        className="text-2xl font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h2>
     ),
     h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h3 className="text-xl font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h3
+        className="text-xl font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h3>
     ),
     h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h4 className="text-lg font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h4
+        className="text-lg font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h4>
     ),
     h5: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h5 className="text-base font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h5
+        className="text-base font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h5>
     ),
     h6: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-      <h6 className="text-sm font-bold my-4" id={props.children?.toString().trim().replace(/\s+/g, "-")}>
+      <h6
+        className="text-sm font-bold my-4"
+        id={props.children?.toString().trim().replace(/\s+/g, "-")}
+      >
         {props.children}
       </h6>
     ),
@@ -62,38 +80,47 @@ export default function MarkdownRenderer({ content }: { content: string }) {
     ),
     code: async (props: React.HTMLAttributes<HTMLElement>) => {
       const result = await codeToTokens(props.children?.toString() || "", {
-        lang: (props.className?.replace("language-", "") || "txt") as unknown as Parameters<typeof codeToTokens>[1]["lang"],
+        lang: (props.className?.replace("language-", "") ||
+          "txt") as unknown as Parameters<typeof codeToTokens>[1]["lang"],
         theme: "one-dark-pro",
       });
 
       const lineKeyCounts = new Map<string, number>();
-      const codeLines = result.tokens.reduce<React.ReactNode[]>((lines, line) => {
-        const serialized = line.map((token) => `${token.offset}:${token.content}`).join("|") || "blank";
-        const count = lineKeyCounts.get(serialized) ?? 0;
-        lineKeyCounts.set(serialized, count + 1);
-        const lineKey = count === 0 ? serialized : `${serialized}-${count}`;
+      const codeLines = result.tokens.reduce<React.ReactNode[]>(
+        (lines, line) => {
+          const serialized =
+            line.map((token) => `${token.offset}:${token.content}`).join("|") ||
+            "blank";
+          const count = lineKeyCounts.get(serialized) ?? 0;
+          lineKeyCounts.set(serialized, count + 1);
+          const lineKey = count === 0 ? serialized : `${serialized}-${count}`;
 
-        lines.push(
-          <span key={lineKey} className="block whitespace-pre">
-            {line.map((token) => (
-              <span
-                key={`${token.offset}:${token.content}`}
-                style={{
-                  color: token.color,
-                  fontStyle: token.fontStyle === 1 ? "italic" : "normal",
-                }}
-              >
-                {token.content}
-              </span>
-            ))}
-          </span>,
-        );
+          lines.push(
+            <span key={lineKey} className="block whitespace-pre">
+              {line.map((token) => (
+                <span
+                  key={`${token.offset}:${token.content}`}
+                  style={{
+                    color: token.color,
+                    fontStyle: token.fontStyle === 1 ? "italic" : "normal",
+                  }}
+                >
+                  {token.content}
+                </span>
+              ))}
+            </span>,
+          );
 
-        return lines;
-      }, []);
+          return lines;
+        },
+        [],
+      );
 
       return (
-        <pre className="shiki overflow-x-auto rounded" style={{ backgroundColor: result.bg }}>
+        <pre
+          className="shiki overflow-x-auto rounded"
+          style={{ backgroundColor: result.bg }}
+        >
           <code>{codeLines}</code>
         </pre>
       );
@@ -145,14 +172,22 @@ export default function MarkdownRenderer({ content }: { content: string }) {
   };
   return (
     <>
-      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={MDComponents}>
+      <Markdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw]}
+        components={MDComponents}
+      >
         {markdownBeforeToc}
       </Markdown>
 
       {hasToc ? <HeadingList markdown={content} /> : null}
 
       {hasToc ? (
-        <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} components={MDComponents}>
+        <Markdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+          components={MDComponents}
+        >
           {markdownAfterToc}
         </Markdown>
       ) : null}
