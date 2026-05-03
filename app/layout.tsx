@@ -64,20 +64,33 @@ export default async function RootLayout({
               </main>
 
               {/* サイドバー（右） */}
-              <aside className="bg-white p-4 min-h-[200px] rounded-lg shadow-xl">
+              <aside className="bg-white p-4 rounded-lg shadow-xl">
                 <section className="mt-4 mb-8">
                   <h2>最近の記事</h2>
-                  <ul>
-                    {recentPosts.slice(0, 5).map((post) => (
-                      <li key={post.slug}>
-                        <Link href={`/posts/${post.slug}`}>
-                          <div className="bg-gray-200 text-black p-2 my-2 rounded shadow hover:bg-gray-300 hover:scale-102 transition-all">
+                  <div className="my-4">
+                    {recentPosts.map((post) => (
+                      <Link href={`/posts/${post.slug}`} key={post.slug}>
+                        <div
+                          key={post.slug}
+                          className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+                        >
+                          <span className="text-black text-sm font-bold">
                             {post.title}
-                          </div>
-                        </Link>
-                      </li>
+                          </span>
+                          <p className="text-sm text-gray-600 !my-0">
+                            {post.created_at
+                              ? post.created_at.toLocaleDateString()
+                              : "No date"}{" "}
+                            投稿 ・{" "}
+                            {post.updatedDate
+                              ? post.updatedDate.toLocaleDateString()
+                              : "No date"}{" "}
+                            更新
+                          </p>
+                        </div>
+                      </Link>
                     ))}
-                  </ul>
+                  </div>
                 </section>
 
                 <section className="my-8">
@@ -142,6 +155,69 @@ export default async function RootLayout({
                     </p>
                   </div>
                 </section>
+
+                <section className="mt-4 mb-8">
+                  <h2>#開発</h2>
+                  <div className="my-4">
+                    {recentPosts.map(
+                      (post) =>
+                        post.matterData.tags?.includes("開発") && (
+                          <Link href={`/posts/${post.slug}`} key={post.slug}>
+                            <div
+                              key={post.slug}
+                              className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+                            >
+                              <span className="text-black text-sm font-bold">
+                                {post.title}
+                              </span>
+                              <p className="text-sm text-gray-600 !my-0">
+                                {post.created_at
+                                  ? post.created_at.toLocaleDateString()
+                                  : "No date"}{" "}
+                                投稿 ・{" "}
+                                {post.updatedDate
+                                  ? post.updatedDate.toLocaleDateString()
+                                  : "No date"}{" "}
+                                更新
+                              </p>
+                            </div>
+                          </Link>
+                        ),
+                    )}
+                  </div>
+                </section>
+
+                <section className="mt-4 mb-8">
+                  <h2>#ガジェット</h2>
+                  <div className="my-4">
+                    {recentPosts.map(
+                      (post) =>
+                        post.matterData.tags?.includes("ガジェット") && (
+                          <Link href={`/posts/${post.slug}`} key={post.slug}>
+                            <div
+                              key={post.slug}
+                              className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+                            >
+                              <span className="text-black text-sm font-bold">
+                                {post.title}
+                              </span>
+                              <p className="text-sm text-gray-600 !my-0">
+                                {post.created_at
+                                  ? post.created_at.toLocaleDateString()
+                                  : "No date"}{" "}
+                                投稿 ・{" "}
+                                {post.updatedDate
+                                  ? post.updatedDate.toLocaleDateString()
+                                  : "No date"}{" "}
+                                更新
+                              </p>
+                            </div>
+                          </Link>
+                        ),
+                    )}
+                  </div>
+                </section>
+
               </aside>
             </div>
           </div>

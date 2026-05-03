@@ -20,8 +20,8 @@ export default async function ArticlePage(props: ArticlePageProps) {
   return (
     <>
       <nav className="mb-4">
-        <Link href="/">ホーム</Link> &gt; <Link href="/posts">記事一覧</Link> &gt;{" "}
-        <span>{title}</span>
+        <Link href="/">ホーム</Link> &gt; <Link href="/posts">記事一覧</Link>{" "}
+        &gt; <span>{title}</span>
       </nav>
 
       <div className="my-2">
@@ -32,7 +32,7 @@ export default async function ArticlePage(props: ArticlePageProps) {
       </div>
 
       <div className="text-gray-600 text-sm mb-4">
-        <span>作成日: {created_at?.toLocaleDateString()}</span>
+        <span>投稿日: {created_at?.toLocaleDateString()}</span>
         <span className="mx-2">/</span>
         <span>最終更新日: {updatedDate?.toLocaleString()}</span>
       </div>
@@ -40,11 +40,16 @@ export default async function ArticlePage(props: ArticlePageProps) {
       <div className="my-2 flex gap-2">
         {matterData.tags && matterData.tags.length > 0 ? (
           matterData.tags.map((tag) => (
-            <span key={tag} className="bg-gray-700 text-white px-2 py-1 rounded-2xl">
+            <span
+              key={tag}
+              className="bg-gray-700 text-white px-2 py-1 rounded-2xl"
+            >
               #{tag}
             </span>
           ))
-        ): (<></>)}
+        ) : (
+          <></>
+        )}
       </div>
 
       <MarkdownRenderer content={content} />
@@ -66,32 +71,103 @@ export default async function ArticlePage(props: ArticlePageProps) {
             },
             datePublished: created_at ? created_at.toISOString() : undefined,
             dateModified: updatedDate ? updatedDate.toISOString() : undefined,
-            mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/posts/${slug}` },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `${SITE_URL}/posts/${slug}`,
+            },
           }),
         }}
       />
 
       <h2 className="text-2xl font-bold my-4">関連記事</h2>
-      <p>
-        前の記事:{" "}
-        {previous ? (
-          <Link href={`/posts/${previous.slug}`}>
-            {previous.title} - {previous.updatedDate?.toLocaleDateString()}
-          </Link>
-        ) : (
-          "この記事が最古の記事です！"
-        )}
-      </p>
-      <p>
-        次の記事:{" "}
-        {next ? (
-          <Link href={`/posts/${next.slug}`}>
-            {next.title} - {next.updatedDate?.toLocaleDateString()}
-          </Link>
-        ) : (
-          "この記事が最新です！"
-        )}
-      </p>
+      <div className="flex flex-col-2 gap-8">
+        <div>
+          <p className="!my-3 text-lg text-center">◀ 前回の記事</p>
+          {previous ? (
+            <Link href={`/posts/${previous.slug}`} key={previous.slug}>
+              <div
+                key={previous.slug}
+                className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+              >
+                <span className="text-black text-xl font-bold">
+                  {previous.title}
+                </span>
+                <p className="text-sm text-gray-600">
+                  {previous.created_at
+                    ? previous.created_at.toLocaleDateString()
+                    : "No date"}{" "}
+                  作成 ・{" "}
+                  {previous.updatedDate
+                    ? previous.updatedDate.toLocaleDateString()
+                    : "No date"}{" "}
+                  更新
+                </p>
+
+                <div className="my-2 flex gap-2">
+                  {previous.matterData.tags &&
+                  previous.matterData.tags.length > 0 ? (
+                    previous.matterData.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-gray-700 text-white px-2 py-1 rounded-2xl"
+                      >
+                        #{tag}
+                      </span>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ) : (
+            "この記事が最古の記事です！"
+          )}
+        </div>
+
+        <div>
+          <p className="!my-3 text-lg text-center">次の記事 ▶</p>
+          {next ? (
+            <Link href={`/posts/${next.slug}`} key={next.slug}>
+              <div
+                key={next.slug}
+                className="mb-4 p-4 bg-gray-200 text-white rounded shadow-md hover:bg-gray-300 hover:scale-102 transition-all"
+              >
+                <span className="text-black text-xl font-bold">
+                  {next.title}
+                </span>
+                <p className="text-sm text-gray-600">
+                  {next.created_at
+                    ? next.created_at.toLocaleDateString()
+                    : "No date"}{" "}
+                  作成 ・{" "}
+                  {next.updatedDate
+                    ? next.updatedDate.toLocaleDateString()
+                    : "No date"}{" "}
+                  更新
+                </p>
+
+                <div className="my-2 flex gap-2">
+                  {next.matterData.tags && next.matterData.tags.length > 0 ? (
+                    next.matterData.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-gray-700 text-white px-2 py-1 rounded-2xl"
+                      >
+                        #{tag}
+                      </span>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ) : (
+            "この記事が最古の記事です！"
+          )}
+        </div>
+      </div>
     </>
   );
 }
