@@ -299,3 +299,13 @@ export async function getPostsSlug(): Promise<string[]> {
     .filter((filename) => filename.endsWith(".md"))
     .map((filename) => filename.replace(/\.md$/, ""));
 }
+
+
+export async function getAllTags(): Promise<string[]> {
+  const posts = await getAllPosts();
+
+  const tags: string[] = posts.flatMap((post) => {
+    return post.matterData.tags || [];
+  });
+  return [...new Set(tags)];
+}

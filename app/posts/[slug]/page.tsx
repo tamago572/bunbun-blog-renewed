@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
 import TwitterShareBtn from "@/app/components/TwitterShareBtn";
-import { getAdjacentPosts, getPost, getPostsSlug } from "@/app/utils/articleIO";
+import { getAdjacentPosts, getAllTags, getPost, getPostsSlug } from "@/app/utils/articleIO";
 
 const SITE_URL = "https://blog.bunbunapp.dev";
 
